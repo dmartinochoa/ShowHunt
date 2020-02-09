@@ -30,50 +30,51 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class CreateAccount extends JFrame {
+public class ManageAccount extends JFrame {
 	private Controlador control;
 	private Modelo model;
 
 	private int xx, xy; // position to move window
 
-	private JTextField txtUsername;
-	private JLabel lblShowhunt;
-	private JLabel lblUsername;
-	private JButton btnCreateAccount;
-	private JLabel lblPwd;
-	private JPasswordField txtPwd;
+	private JTextField txtCurrentPwd;
+	private JLabel lblManageAcc;
+	private JLabel lblChangeCity;
+	private JButton btnChangePwd;
+	private JLabel lblNewPwd;
+	private JPasswordField txtNewPwd;
 	private JPasswordField txtPwdCheck;
 	private JLabel lblPwdCheck;
-	private JLabel lblCity;
-	private JLabel lblEmail;
-	private JTextField txtEmail;
-	private JCheckBox checkTerms;
+	private JLabel lblcurrentCity;
+	private JLabel lblChangePwd;
 	private JComboBox comboBoxCity;
 	private JLabel lblBackround;
 	private JLabel lblExit;
 	private JLabel lblMinimize;
+	private JLabel lblCurrentPwd;
+	private JLabel lblNewCity;
+	private JLabel lblcurrentCityShow;
+	private JButton btnChangeCity;
+	private JButton btnBack;
 
-	public CreateAccount() {
+	public ManageAccount() {
 		setTitle("ShowHunt");
-
-		setIconImage(Toolkit.getDefaultToolkit().getImage(CreateAccount.class.getResource("/img/logoWhiteMid.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ManageAccount.class.getResource("/img/logoWhiteMid.png")));
 		setResizable(false);
 		setBounds(100, 100, 800, 500);
-
 		setUndecorated(true); // Removes border
 		setShape(new RoundRectangle2D.Double(0, 0, 800, 500, 40, 40)); // Border radius
 		getContentPane().setLayout(null);
 
 // BOTENES
-		// Create account button
-		btnCreateAccount = new JButton("Create Account");
-		btnCreateAccount.setBounds(330, 369, 155, 25);
-		btnCreateAccount.setFont(new Font("SansSerif", Font.BOLD, 15));
-		getContentPane().add(btnCreateAccount);
-		btnCreateAccount.addMouseListener(new MouseAdapter() {
+		// Change pwd button
+		btnChangePwd = new JButton("Change Password");
+		btnChangePwd.setBounds(159, 298, 168, 25);
+		btnChangePwd.setFont(new Font("SansSerif", Font.BOLD, 15));
+		getContentPane().add(btnChangePwd);
+		btnChangePwd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnCreateAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				btnChangePwd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 
 			public void mouseClicked(MouseEvent e) {
@@ -81,9 +82,15 @@ public class CreateAccount extends JFrame {
 			}
 		});
 
+		// Change city button
+		btnChangeCity = new JButton("Change City");
+		btnChangeCity.setFont(new Font("SansSerif", Font.BOLD, 15));
+		btnChangeCity.setBounds(585, 262, 168, 25);
+		getContentPane().add(btnChangeCity);
+
 		// Back button
-		JButton btnBack = new JButton("Back");
-		btnBack.setBounds(353, 407, 97, 25);
+		btnBack = new JButton("Back");
+		btnBack.setBounds(663, 451, 97, 25);
 		btnBack.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnBack);
 		btnBack.addMouseListener(new MouseAdapter() {
@@ -93,54 +100,72 @@ public class CreateAccount extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				control.goToLogin();
+				control.goToHomeFromManageAcc();
 			}
 		});
 
 // LABELS
-		lblShowhunt = new JLabel("Create Account");
-		lblShowhunt.setForeground(Color.WHITE);
-		lblShowhunt.setBounds(200, 42, 400, 107);
-		lblShowhunt.setFont(new Font("SansSerif", Font.BOLD, 50));
-		getContentPane().add(lblShowhunt);
+		lblManageAcc = new JLabel("Manage Account");
+		lblManageAcc.setForeground(Color.WHITE);
+		lblManageAcc.setBounds(257, 11, 290, 107);
+		lblManageAcc.setFont(new Font("SansSerif", Font.BOLD, 35));
+		getContentPane().add(lblManageAcc);
 
-		lblEmail = new JLabel("E:mail:");
-		lblEmail.setForeground(Color.WHITE);
-		lblEmail.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblEmail.setBounds(235, 180, 87, 20);
-		getContentPane().add(lblEmail);
+		lblChangePwd = new JLabel("Change Password");
+		lblChangePwd.setForeground(Color.WHITE);
+		lblChangePwd.setFont(new Font("SansSerif", Font.BOLD, 20));
+		lblChangePwd.setBounds(79, 113, 187, 33);
+		getContentPane().add(lblChangePwd);
 
-		lblUsername = new JLabel("UserName:");
-		lblUsername.setForeground(Color.WHITE);
-		lblUsername.setBounds(235, 210, 87, 20);
-		lblUsername.setFont(new Font("SansSerif", Font.BOLD, 15));
-		getContentPane().add(lblUsername);
+		lblChangeCity = new JLabel("Change Default City");
+		lblChangeCity.setForeground(Color.WHITE);
+		lblChangeCity.setBounds(539, 119, 221, 25);
+		lblChangeCity.setFont(new Font("SansSerif", Font.BOLD, 20));
+		getContentPane().add(lblChangeCity);
 
-		lblPwd = new JLabel("Password:");
-		lblPwd.setForeground(Color.WHITE);
-		lblPwd.setBounds(235, 240, 87, 20);
-		lblPwd.setFont(new Font("SansSerif", Font.BOLD, 15));
-		getContentPane().add(lblPwd);
+		lblNewPwd = new JLabel("New Password:");
+		lblNewPwd.setForeground(Color.WHITE);
+		lblNewPwd.setBounds(38, 218, 128, 20);
+		lblNewPwd.setFont(new Font("SansSerif", Font.BOLD, 15));
+		getContentPane().add(lblNewPwd);
 
-		lblPwdCheck = new JLabel("Password:");
+		lblPwdCheck = new JLabel("Retype Password:");
 		lblPwdCheck.setForeground(Color.WHITE);
-		lblPwdCheck.setBounds(235, 270, 87, 20);
+		lblPwdCheck.setBounds(38, 251, 140, 20);
 		lblPwdCheck.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(lblPwdCheck);
 
-		lblCity = new JLabel("City:");
-		lblCity.setForeground(Color.WHITE);
-		lblCity.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblCity.setBounds(235, 300, 87, 20);
-		getContentPane().add(lblCity);
+		lblcurrentCity = new JLabel("Current City:");
+		lblcurrentCity.setForeground(Color.WHITE);
+		lblcurrentCity.setFont(new Font("SansSerif", Font.BOLD, 15));
+		lblcurrentCity.setBounds(485, 187, 109, 20);
+		getContentPane().add(lblcurrentCity);
 
-// TEXTFIELDS
-		txtEmail = new JTextField();
-		txtEmail.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		txtEmail.setColumns(10);
-		txtEmail.setBounds(330, 180, 155, 22);
-		getContentPane().add(txtEmail);
-		txtEmail.addKeyListener(new KeyAdapter() {
+		lblCurrentPwd = new JLabel("Current Password:");
+		lblCurrentPwd.setForeground(Color.WHITE);
+		lblCurrentPwd.setFont(new Font("SansSerif", Font.BOLD, 15));
+		lblCurrentPwd.setBounds(38, 187, 140, 20);
+		getContentPane().add(lblCurrentPwd);
+
+		lblcurrentCityShow = new JLabel("idfk");
+		lblcurrentCityShow.setForeground(Color.WHITE);
+		lblcurrentCityShow.setFont(new Font("SansSerif", Font.BOLD, 15));
+		lblcurrentCityShow.setBounds(616, 186, 109, 20);
+		getContentPane().add(lblcurrentCityShow);
+
+		lblNewCity = new JLabel("New City:");
+		lblNewCity.setForeground(Color.WHITE);
+		lblNewCity.setFont(new Font("SansSerif", Font.BOLD, 15));
+		lblNewCity.setBounds(485, 218, 109, 20);
+		getContentPane().add(lblNewCity);
+
+// TEXT FIELDS
+		txtCurrentPwd = new JTextField();
+		txtCurrentPwd.setBounds(182, 187, 155, 22);
+		txtCurrentPwd.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		getContentPane().add(txtCurrentPwd);
+		txtCurrentPwd.setColumns(10);
+		txtCurrentPwd.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -149,24 +174,10 @@ public class CreateAccount extends JFrame {
 			}
 		});
 
-		txtUsername = new JTextField();
-		txtUsername.setBounds(330, 210, 155, 22);
-		txtUsername.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		getContentPane().add(txtUsername);
-		txtUsername.setColumns(10);
-		txtUsername.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					createAccChecker();
-				}
-			}
-		});
-
-		txtPwd = new JPasswordField();
-		txtPwd.setBounds(330, 240, 155, 22);
-		getContentPane().add(txtPwd);
-		txtPwd.addKeyListener(new KeyAdapter() {
+		txtNewPwd = new JPasswordField();
+		txtNewPwd.setBounds(182, 219, 155, 22);
+		getContentPane().add(txtNewPwd);
+		txtNewPwd.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -176,7 +187,7 @@ public class CreateAccount extends JFrame {
 		});
 
 		txtPwdCheck = new JPasswordField();
-		txtPwdCheck.setBounds(330, 270, 155, 22);
+		txtPwdCheck.setBounds(182, 252, 155, 22);
 		getContentPane().add(txtPwdCheck);
 		txtPwdCheck.addKeyListener(new KeyAdapter() {
 			@Override
@@ -192,23 +203,9 @@ public class CreateAccount extends JFrame {
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
 		comboBoxCity.setModel(new DefaultComboBoxModel(
 				new String[] { null, "Madrid", "Barcerlona", "Esto es trabajo de chino", "test" }));
-		comboBoxCity.setBounds(330, 300, 155, 22);
+		comboBoxCity.setBounds(598, 218, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					createAccChecker();
-				}
-			}
-		});
-
-// CHECKBOX
-		checkTerms = new JCheckBox("Accept terms of use");
-		checkTerms.setFont(new Font("SansSerif", Font.BOLD, 12));
-		checkTerms.setBounds(330, 329, 155, 23);
-		getContentPane().add(checkTerms);
-		checkTerms.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -272,33 +269,33 @@ public class CreateAccount extends JFrame {
 			public void mouseDragged(MouseEvent e) {
 				int x = e.getXOnScreen();
 				int y = e.getYOnScreen();
-				CreateAccount.this.setLocation(x - xx, y - xy);
+				ManageAccount.this.setLocation(x - xx, y - xy);
 			}
 		});
 	}
 
 // Create Account info checker
 	public void createAccChecker() {
-		char[] pwd = txtPwd.getPassword();
+		char[] pwd = txtNewPwd.getPassword();
 		char[] pwdCheck = txtPwdCheck.getPassword();
 		// Primero comprueba que todos los campos esten rellenos
-		if (pwd.length > 0 && pwdCheck.length > 0 && txtEmail.getText().length() > 0
-				&& txtUsername.getText().length() > 0 && comboBoxCity.getSelectedItem() != null) {
-			// Despues comprueba que los campos sean validos
-			if (checkTerms.isSelected() && Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
-				// Aqui deberia comprobar que el usuario/email no existe en la base de datos
-				control.createAccountPress();
+		// faltaria comprobar con la contraseña original
+		if (pwd.length > 0 && pwdCheck.length > 0) {
+
+			if (Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
+				JOptionPane.showMessageDialog(btnChangePwd, "Your password was changed");
 				// pdwHash sera la variable que guardaremos como contraseña
-				String pwdHash = String.valueOf(txtPwd.getText().hashCode());
-			} else if (checkTerms.isSelected() && Arrays.equals(pwd, pwdCheck) && pwd.length < 8) {
-				JOptionPane.showMessageDialog(checkTerms, "Your password must be at least 8 characters long");
-			} else if (checkTerms.isSelected() && !Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
-				JOptionPane.showMessageDialog(checkTerms, "Your passwords dont match");
-			} else if (!checkTerms.isSelected()) {
-				JOptionPane.showMessageDialog(checkTerms, "You must accept the terms of use");
+				String pwdHash = String.valueOf(txtNewPwd.getText().hashCode());
+
+			} else if (Arrays.equals(pwd, pwdCheck) && pwd.length < 8) {
+				JOptionPane.showMessageDialog(btnChangePwd, "Your password must be at least 8 characters long");
+
+			} else if (!Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
+				JOptionPane.showMessageDialog(btnChangePwd, "Your passwords dont match");
 			}
 		} else {
-			JOptionPane.showMessageDialog(checkTerms, "You must fill out all the fields");
+			JOptionPane.showMessageDialog(btnChangePwd, "Fill out all the information");
+
 		}
 	}
 

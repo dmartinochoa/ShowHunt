@@ -42,6 +42,7 @@ public class Login extends JFrame {
 
 	private JLabel lblPassword;
 	private JLabel lblMinimize;
+	private JLabel lblNewLabel;
 
 	public Login() {
 		setTitle("ShowHunt");
@@ -50,6 +51,7 @@ public class Login extends JFrame {
 		setBounds(100, 100, 800, 500);
 		setUndecorated(true); // Removes border
 		setShape(new RoundRectangle2D.Double(0, 0, 800, 500, 40, 40)); // Border radius
+		getContentPane().setLayout(null);
 
 // BOTENES
 		// Login button
@@ -87,7 +89,7 @@ public class Login extends JFrame {
 // LABELS
 		lblShowhunt = new JLabel("ShowHunt");
 		lblShowhunt.setForeground(Color.WHITE);
-		lblShowhunt.setBounds(273, 39, 274, 107);
+		lblShowhunt.setBounds(273, 26, 274, 107);
 		lblShowhunt.setFont(new Font("SansSerif", Font.BOLD, 50));
 		getContentPane().add(lblShowhunt);
 
@@ -101,6 +103,11 @@ public class Login extends JFrame {
 		lblPassword.setBounds(235, 295, 87, 20);
 		lblPassword.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(lblPassword);
+		
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/img/logoWhiteMid.png")));
+		lblNewLabel.setBounds(330, 113, 152, 140);
+		getContentPane().add(lblNewLabel);
 
 // TEXT FIELDS
 		txtUsername = new JTextField();
@@ -167,7 +174,7 @@ public class Login extends JFrame {
 // BACKROUND
 		lblBackround = new JLabel("");
 		lblBackround.setIcon(new ImageIcon(Login.class.getResource("/img/2smaller.jpg")));
-		lblBackround.setBounds(0, 0, 827, 500);
+		lblBackround.setBounds(0, 0, 800, 500);
 		getContentPane().add(lblBackround);
 
 // Listeners para mover la ventana

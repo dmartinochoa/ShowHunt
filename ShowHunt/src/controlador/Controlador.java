@@ -8,13 +8,14 @@ public class Controlador {
 	private Login login;
 	private CreateAccount createAcc;
 	private Home home;
+	private ManageAccount manageAcc;
 
 // VISTA LOGIN
 	// Boton de iniciar session
 	public void loginPress() {
 		System.out.println("login test");
 		// comprobacion de usuario/contraseña para acceder
-		this.login.setVisible(false);
+		this.login.dispose();
 		if (home != null) {
 			this.home.setVisible(true);
 		} else {
@@ -39,13 +40,33 @@ public class Controlador {
 	}
 
 // VISTA CREATE ACCOUNT
-	// Boton para crear usuario y volver a la vista de login desde cualquier ventana
+	// Boton para crear usuario y volver a la vista de login
 	public void createAccountPress() {
 		this.createAcc.dispose();
 		this.login.setVisible(true);
 	}
 
-// Boton para volver a la vista de login
+// VISTA PRINCIPAL
+	public void goToManageAcc() {
+		this.home.setVisible(false);
+		if (manageAcc != null) {
+			this.manageAcc.setVisible(true);
+		} else {
+			this.manageAcc = new ManageAccount();
+			this.manageAcc.setControl(this);
+			this.manageAcc.setModelo(model);
+			this.manageAcc.setVisible(true);
+		}
+	}
+
+// MANAGE ACC VIEW
+	public void goToHomeFromManageAcc() {
+		this.manageAcc.dispose();
+		this.home.setVisible(true);
+
+	}
+
+// temporal para volver a la vista de login 
 	public void goToLogin() {
 		if (createAcc != null) {
 			this.createAcc.dispose();

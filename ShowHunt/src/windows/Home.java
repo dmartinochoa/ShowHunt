@@ -85,6 +85,7 @@ public class Home extends JFrame {
 		lblShowHunt.setFont(new Font("SansSerif", Font.BOLD, 35));
 		getContentPane().add(lblShowHunt);
 
+		// Search lbls
 		lblBandName = new JLabel("Band Name:");
 		lblBandName.setForeground(Color.WHITE);
 		lblBandName.setFont(new Font("SansSerif", Font.BOLD, 15));
@@ -117,6 +118,7 @@ public class Home extends JFrame {
 			}
 		});
 
+		// Icon lbls
 		lblRecIcon = new JLabel("");
 		lblRecIcon.setIcon(new ImageIcon(Home.class.getResource("/img/heart.png")));
 		lblRecIcon.setBounds(565, 22, 24, 31);
@@ -188,11 +190,13 @@ public class Home extends JFrame {
 			public void mouseEntered(MouseEvent e) {
 				listUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int choice = listUser.getSelectedIndex();
 				switch (choice) {
 				case 0:
+					control.goToManageAcc();
 					break;
 				case 1:
 					control.goToLogin();
@@ -200,6 +204,7 @@ public class Home extends JFrame {
 				}
 				listUser.setVisible(false);
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				listUser.setVisible(false);
