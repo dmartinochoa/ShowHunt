@@ -68,7 +68,7 @@ public class ManageAccount extends JFrame {
 // BOTENES
 		// Change pwd button
 		btnChangePwd = new JButton("Change Password");
-		btnChangePwd.setBounds(159, 298, 168, 25);
+		btnChangePwd.setBounds(178, 298, 165, 25);
 		btnChangePwd.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnChangePwd);
 		btnChangePwd.addMouseListener(new MouseAdapter() {
@@ -85,12 +85,12 @@ public class ManageAccount extends JFrame {
 		// Change city button
 		btnChangeCity = new JButton("Change City");
 		btnChangeCity.setFont(new Font("SansSerif", Font.BOLD, 15));
-		btnChangeCity.setBounds(585, 262, 168, 25);
+		btnChangeCity.setBounds(605, 261, 155, 25);
 		getContentPane().add(btnChangeCity);
 
 		// Back button
 		btnBack = new JButton("Back");
-		btnBack.setBounds(663, 451, 97, 25);
+		btnBack.setBounds(685, 453, 97, 25);
 		btnBack.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnBack);
 		btnBack.addMouseListener(new MouseAdapter() {
@@ -203,7 +203,7 @@ public class ManageAccount extends JFrame {
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
 		comboBoxCity.setModel(new DefaultComboBoxModel(
 				new String[] { null, "Madrid", "Barcerlona", "Esto es trabajo de chino", "test" }));
-		comboBoxCity.setBounds(598, 218, 155, 22);
+		comboBoxCity.setBounds(605, 218, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {
 			@Override
