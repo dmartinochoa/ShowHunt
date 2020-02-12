@@ -87,6 +87,16 @@ public class ManageAccount extends JFrame {
 		btnChangeCity.setFont(new Font("SansSerif", Font.BOLD, 15));
 		btnChangeCity.setBounds(605, 261, 155, 25);
 		getContentPane().add(btnChangeCity);
+		btnChangeCity.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnChangeCity.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseClicked(MouseEvent e) {
+				createAccChecker();
+			}
+		});
 
 		// Back button
 		btnBack = new JButton("Back");

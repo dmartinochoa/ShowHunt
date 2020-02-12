@@ -87,8 +87,4 @@ public class Controlador {
 		this.login = login;
 	}
 
-	public void setCreateAccount(CreateAccount createAccount) {
-		this.createAcc = createAccount;
-	}
-
 }
