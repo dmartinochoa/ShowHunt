@@ -13,7 +13,6 @@ public class Controlador {
 // VISTA LOGIN
 	// Boton de iniciar session
 	public void loginPress() {
-		System.out.println("login test");
 		// comprobacion de usuario/contraseña para acceder
 		this.login.dispose();
 		if (home != null) {

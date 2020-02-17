@@ -94,7 +94,6 @@ public class ManageAccount extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				createAccChecker();
 			}
 		});
 
