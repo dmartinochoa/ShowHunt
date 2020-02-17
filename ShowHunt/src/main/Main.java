@@ -18,6 +18,8 @@ public class Main {
 		model.setLogin(login);
 
 		login.setVisible(true);
+		model.conectar("usuario");
+		
 	}
 
 	public static void main(String[] args) {

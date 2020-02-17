@@ -11,18 +11,30 @@ public class Controlador {
 	private ManageAccount manageAcc;
 
 // VISTA LOGIN
+	int loginAttempts = 0;
+
 	// Boton de iniciar session
-	public void loginPress() {
+	public void loginPress(String userName, String userPass) {
 		// comprobacion de usuario/contraseña para acceder
-		this.login.dispose();
-		if (home != null) {
-			this.home.setVisible(true);
-		} else {
-			this.home = new Home();
-			this.home.setControl(this);
-			this.home.setModelo(model);
-			this.home.setVisible(true);
+		if(model.loginUser(userName, userPass)) {
+			
+			this.login.dispose();
+			if (home != null) {
+				this.home.setVisible(true);
+			} else {
+				this.home = new Home();
+				this.home.setControl(this);
+				this.home.setModelo(model);
+				this.home.setVisible(true);
+			}
+		}else {
+			login.loginMessage();
+			loginAttempts++;
 		}
+		if(loginAttempts >= 5) {
+			login.dispose();
+		}
+
 	}
 
 	// Boton para cambiar a la vista de crear usuario

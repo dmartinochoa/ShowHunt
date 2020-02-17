@@ -6,6 +6,7 @@ import modelo.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -66,7 +67,13 @@ public class Login extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				control.loginPress();
+				
+				String userName = txtUsername.getText();
+				char [] userPassArray = passwordField.getPassword();
+				String userPass = String.valueOf(userPassArray);
+				System.out.println(userPass);
+				
+				control.loginPress(userName,userPass);
 			}
 		});
 
@@ -119,7 +126,6 @@ public class Login extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					control.loginPress();
 				}
 			}
 		});
@@ -131,7 +137,6 @@ public class Login extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					control.loginPress();
 				}
 			}
 		});
@@ -194,6 +199,10 @@ public class Login extends JFrame {
 				Login.this.setLocation(x - xx, y - xy);
 			}
 		});
+	}
+	
+	public void loginMessage() {
+		JOptionPane.showMessageDialog(btnLogin, "Incorrect username or password");
 	}
 
 // SETTERS

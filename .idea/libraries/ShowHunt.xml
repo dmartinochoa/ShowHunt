@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ShowHunt">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ShowHunt/jgoodies-forms-1.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ShowHunt/jgoodies-forms-1.8.0-sources.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
