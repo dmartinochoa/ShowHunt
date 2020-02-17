@@ -29,6 +29,8 @@ import javax.swing.JCheckBox;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class CreateAccount extends JFrame {
 	private Controlador control;
@@ -70,6 +72,7 @@ public class CreateAccount extends JFrame {
 		btnCreateAccount.setBounds(330, 369, 155, 25);
 		btnCreateAccount.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnCreateAccount);
+		btnCreateAccount.setEnabled(false);
 		btnCreateAccount.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -205,6 +208,15 @@ public class CreateAccount extends JFrame {
 
 // CHECKBOX
 		checkTerms = new JCheckBox("Accept terms of use");
+		checkTerms.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (checkTerms.isSelected()) {
+					btnCreateAccount.setEnabled(true);
+				} else {
+					btnCreateAccount.setEnabled(false);
+				}
+			}
+		});
 		checkTerms.setFont(new Font("SansSerif", Font.BOLD, 12));
 		checkTerms.setBounds(330, 329, 155, 23);
 		getContentPane().add(checkTerms);

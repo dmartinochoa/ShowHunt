@@ -17,7 +17,7 @@ public class Modelo {
     private ManageAccount manageAcc;
     
     private String USUARIO = "usuario";
-    private static String PASS = "12345";
+    private static String PASS = "1234";
     private static final String BBDD = "showHuntDB";
     private static final String URL = "jdbc:mysql://localhost:3306/" + BBDD;
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";

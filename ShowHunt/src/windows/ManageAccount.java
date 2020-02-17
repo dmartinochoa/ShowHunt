@@ -29,6 +29,10 @@ import javax.swing.JCheckBox;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class ManageAccount extends JFrame {
 	private Controlador control;
@@ -71,6 +75,7 @@ public class ManageAccount extends JFrame {
 		btnChangePwd.setBounds(178, 298, 165, 25);
 		btnChangePwd.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnChangePwd);
+		btnChangePwd.setEnabled(false);
 		btnChangePwd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -78,7 +83,10 @@ public class ManageAccount extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				createAccChecker();
+				if (txtNewPwd.getText().length() > 0 && txtPwdCheck.getText().length() > 0
+						&& txtCurrentPwd.getText().length() > 0) {
+					createAccChecker();
+				}
 			}
 		});
 
@@ -87,6 +95,7 @@ public class ManageAccount extends JFrame {
 		btnChangeCity.setFont(new Font("SansSerif", Font.BOLD, 15));
 		btnChangeCity.setBounds(605, 261, 155, 25);
 		getContentPane().add(btnChangeCity);
+		btnChangeCity.setEnabled(false);
 		btnChangeCity.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -94,6 +103,9 @@ public class ManageAccount extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				if (comboBoxCity.getSelectedItem() != null) {
+					JOptionPane.showMessageDialog(btnChangeCity, "Your default city was changed");
+				}
 			}
 		});
 
@@ -169,7 +181,7 @@ public class ManageAccount extends JFrame {
 		getContentPane().add(lblNewCity);
 
 // TEXT FIELDS
-		txtCurrentPwd = new JTextField();
+		txtCurrentPwd = new JPasswordField();
 		txtCurrentPwd.setBounds(182, 187, 155, 22);
 		txtCurrentPwd.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		getContentPane().add(txtCurrentPwd);
@@ -180,6 +192,11 @@ public class ManageAccount extends JFrame {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
 				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				btnPwdEnabler();
 			}
 		});
 
@@ -193,6 +210,11 @@ public class ManageAccount extends JFrame {
 					createAccChecker();
 				}
 			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				btnPwdEnabler();
+			}
 		});
 
 		txtPwdCheck = new JPasswordField();
@@ -205,10 +227,24 @@ public class ManageAccount extends JFrame {
 					createAccChecker();
 				}
 			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				btnPwdEnabler();
+			}
 		});
 
 // DROPDOWN
 		comboBoxCity = new JComboBox();
+		comboBoxCity.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (comboBoxCity.getSelectedItem() != null) {
+					btnChangeCity.setEnabled(true);
+				} else {
+					btnChangeCity.setEnabled(false);
+				}
+			}
+		});
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
 		comboBoxCity.setModel(new DefaultComboBoxModel(
 				new String[] { null, "Madrid", "Barcerlona", "Esto es trabajo de chino", "test" }));
@@ -218,7 +254,7 @@ public class ManageAccount extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					createAccChecker();
+
 				}
 			}
 		});
@@ -283,6 +319,16 @@ public class ManageAccount extends JFrame {
 		});
 	}
 
+//Change password btn enable/disable
+	public void btnPwdEnabler() {
+		if (txtNewPwd.getText().length() > 0 && txtPwdCheck.getText().length() > 0
+				&& txtCurrentPwd.getText().length() > 0) {
+			btnChangePwd.setEnabled(true);
+		} else {
+			btnChangePwd.setEnabled(false);
+		}
+	}
+
 // Create Account info checker
 	public void createAccChecker() {
 		char[] pwd = txtNewPwd.getPassword();
@@ -302,9 +348,6 @@ public class ManageAccount extends JFrame {
 			} else if (!Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
 				JOptionPane.showMessageDialog(btnChangePwd, "Your passwords dont match");
 			}
-		} else {
-			JOptionPane.showMessageDialog(btnChangePwd, "Fill out all the information");
-
 		}
 	}
 

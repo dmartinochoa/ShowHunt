@@ -60,6 +60,7 @@ public class Login extends JFrame {
 		btnLogin.setBounds(355, 333, 87, 25);
 		btnLogin.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnLogin);
+		btnLogin.setEnabled(false);
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -67,13 +68,10 @@ public class Login extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				
-				String userName = txtUsername.getText();
-				char [] userPassArray = passwordField.getPassword();
-				String userPass = String.valueOf(userPassArray);
-				System.out.println(userPass);
-				
-				control.loginPress(userName,userPass);
+				if (txtUsername.getText().length() > 0 && passwordField.getPassword().length > 0) {
+					btnLogin.setEnabled(true);
+					loginPipo();
+				}
 			}
 		});
 
@@ -110,7 +108,7 @@ public class Login extends JFrame {
 		lblPassword.setBounds(235, 295, 87, 20);
 		lblPassword.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(lblPassword);
-		
+
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/img/logoWhiteMid.png")));
 		lblNewLabel.setBounds(330, 113, 152, 140);
@@ -126,6 +124,18 @@ public class Login extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (txtUsername.getText().length() > 0 && passwordField.getPassword().length > 0) {
+						loginPipo();
+					}
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (txtUsername.getText().length() > 0 && passwordField.getPassword().length > 0) {
+					btnLogin.setEnabled(true);
+				} else {
+					btnLogin.setEnabled(false);
 				}
 			}
 		});
@@ -137,6 +147,18 @@ public class Login extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (txtUsername.getText().length() > 0 && passwordField.getPassword().length > 0) {
+						loginPipo();
+					}
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (txtUsername.getText().length() > 0 && passwordField.getPassword().length > 0) {
+					btnLogin.setEnabled(true);
+				} else {
+					btnLogin.setEnabled(false);
 				}
 			}
 		});
@@ -200,7 +222,16 @@ public class Login extends JFrame {
 			}
 		});
 	}
-	
+
+//Login methdos
+	public void loginPipo() {
+		String userName = txtUsername.getText();
+		char[] userPassArray = passwordField.getPassword();
+		String userPass = String.valueOf(userPassArray);
+		System.out.println(userPass);
+		control.loginPress(userName, userPass);
+	}
+
 	public void loginMessage() {
 		JOptionPane.showMessageDialog(btnLogin, "Incorrect username or password");
 	}
