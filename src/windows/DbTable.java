@@ -49,10 +49,10 @@ public class DbTable extends JFrame {
 				"IdUsuario", "NombreUsuario", "PasswordUsuario", "CorreoUsuario", "CiudadUsuario", "Administrador"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(110);
-		table.getColumnModel().getColumn(1).setPreferredWidth(136);
-		table.getColumnModel().getColumn(2).setPreferredWidth(123);
-		table.getColumnModel().getColumn(3).setPreferredWidth(183);
+		table.getColumnModel().getColumn(0).setPreferredWidth(95);
+		table.getColumnModel().getColumn(1).setPreferredWidth(84);
+		table.getColumnModel().getColumn(2).setPreferredWidth(94);
+		table.getColumnModel().getColumn(3).setPreferredWidth(138);
 		table.getColumnModel().getColumn(5).setPreferredWidth(104);
 		table.setBounds(10, 55, 772, 414);
 		getContentPane().add(table);
