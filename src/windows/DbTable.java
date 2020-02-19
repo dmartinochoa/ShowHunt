@@ -68,7 +68,6 @@ public class DbTable extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(138);
 		table.getColumnModel().getColumn(5).setPreferredWidth(104);
 
-		
 		btnConcerts = new JButton("Concert List");
 		btnConcerts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,11 +79,10 @@ public class DbTable extends JFrame {
 				}
 			}
 		});
-		
+
 		btnConcerts.setBounds(140, 11, 119, 23);
 		getContentPane().add(btnConcerts);
 
-		
 		btnUsers = new JButton("User List");
 		btnUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -112,7 +110,7 @@ public class DbTable extends JFrame {
 		});
 		btnBand.setBounds(269, 11, 109, 23);
 		getContentPane().add(btnBand);
-		
+
 // EXIT
 		lblExit = new JLabel("x");
 		lblExit.setForeground(Color.WHITE);
@@ -152,8 +150,6 @@ public class DbTable extends JFrame {
 		lblBackround.setIcon(new ImageIcon(DbTable.class.getResource("/img/2smaller.jpg")));
 		lblBackround.setBounds(0, 0, 800, 500);
 		getContentPane().add(lblBackround);
-		
-
 
 // Listeners para mover la ventana
 		getContentPane().addMouseListener(new MouseAdapter() {

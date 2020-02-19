@@ -1,4 +1,5 @@
 package main;
+
 import windows.Login;
 import modelo.Modelo;
 import controlador.Controlador;
@@ -8,7 +9,7 @@ public class Main {
 		Login login = new Login();
 		Modelo model = new Modelo();
 		Controlador control = new Controlador();
-		
+
 		control.setModelo(model);
 		control.setLogin(login);
 
@@ -19,7 +20,7 @@ public class Main {
 
 		login.setVisible(true);
 		model.conectar("usuario");
-		
+
 	}
 
 	public static void main(String[] args) {

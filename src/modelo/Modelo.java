@@ -163,8 +163,9 @@ public class Modelo {
 	/**
 	 * Muestra todos los conciertos de la base de datos solo los administradores
 	 * pueden usarlo
-	 * @return 
-	 * @throws SQLException 
+	 * 
+	 * @return
+	 * @throws SQLException
 	 */
 	public ResultSet getShows() throws SQLException {
 		ResultSet rs = null;// las querys
@@ -185,8 +186,9 @@ public class Modelo {
 	/**
 	 * Muestra todos los grupos de la base de datos, solo los administradores pueden
 	 * usarlo
-	 * @return 
-	 * @throws SQLException 
+	 * 
+	 * @return
+	 * @throws SQLException
 	 */
 	public ResultSet getBands() throws SQLException {
 		ResultSet rs = null;// las querys
