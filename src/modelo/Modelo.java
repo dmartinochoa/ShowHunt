@@ -13,84 +13,84 @@ import java.util.ArrayList;
 import controlador.*;
 
 public class Modelo {
-    private Login login;
-    private CreateAccount createAcc;
-    private Home home;
-    private ManageAccount manageAcc;
-    
-    private String USUARIO = "usuario";
-    private static String PASS = "1234";
-    private static final String BBDD = "showHuntDB";
-    private static final String URL = "jdbc:mysql://localhost:3306/" + BBDD;
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static String user;
-    private Connection miConexion;
+	private Login login;
+	private CreateAccount createAcc;
+	private Home home;
+	private ManageAccount manageAcc;
 
-    public Modelo() {
-        try {
-            Class.forName(DRIVER);
-        } catch (Exception e) {
-            System.out.println("Error al cargar el driver");
-            e.printStackTrace();
-        }
-    }
+	private String USUARIO = "Admin";
+	private static String PASS = "1234";
+	private static final String BBDD = "showhuntdb";
+	private static final String URL = "jdbc:mysql://localhost:3306/" + BBDD;
+	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static String user;
+	private Connection miConexion;
 
-    /**
-     * metodo que establece la conexion con la base de datos se pasa como parametro
-     * el usuario de la base de datos, en el caso de que el usuario sea administrador se
-     * conecta como root
-     *
-     * @return
-     */
-    public void conectar(String conexionUser) {
+	public Modelo() {
+		try {
+			Class.forName(DRIVER);
+		} catch (Exception e) {
+			System.out.println("Error al cargar el driver");
+			e.printStackTrace();
+		}
+	}
 
-        if (this.USUARIO.equals("root")) {
-            this.PASS = "";
-        }
-        try {
-            miConexion = DriverManager.getConnection(URL, conexionUser, PASS);
-            System.out.println("Conexión OK");
+	/**
+	 * metodo que establece la conexion con la base de datos se pasa como parametro
+	 * el usuario de la base de datos, en el caso de que el usuario sea
+	 * administrador se conecta como root
+	 *
+	 * @return
+	 */
+	public void conectar(String conexionUser) {
 
-        } catch (SQLException e) {
-            System.out.println("Error en la conexión");
-            e.printStackTrace();
-        }
+		if (this.USUARIO.equals("root")) {
+			this.PASS = "";
+		}
+		try {
+			miConexion = DriverManager.getConnection(URL, conexionUser, PASS);
+			System.out.println("Conexión OK");
 
-    }
+		} catch (SQLException e) {
+			System.out.println("Error en la conexión");
+			e.printStackTrace();
+		}
 
-    /**
-     * metodo que utiliza el valor del atributo user de conexion para sacar el ID de
-     * ese usuario
-     */
-    public int getUserID() {
+	}
 
-        ResultSet rs = null;
-        int userID = 0;
-        try {
-            String selectQuery = "select id_usuario from usuarios where nombreUsuario = '" + this.user + "';";
-            PreparedStatement pstms = miConexion.prepareStatement(selectQuery);
-            rs = pstms.executeQuery();
+	/**
+	 * metodo que utiliza el valor del atributo user de conexion para sacar el ID de
+	 * ese usuario
+	 */
+	public int getUserID() {
 
-            if (rs.next()) {
-                userID = rs.getInt("id_usuario");
-            }
+		ResultSet rs = null;
+		int userID = 0;
+		try {
+			String selectQuery = "select id_usuario from usuarios where nombreUsuario = '" + this.user + "';";
+			PreparedStatement pstms = miConexion.prepareStatement(selectQuery);
+			rs = pstms.executeQuery();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
+			if (rs.next()) {
+				userID = rs.getInt("id_usuario");
+			}
 
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-        return userID;
-    }
-    
-    public boolean loginUser(String userName, String userPass) {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return userID;
+	}
+
+	public boolean loginUser(String userName, String userPass) {
 		ResultSet rs = null;// las querys
 
 		try {
@@ -99,9 +99,9 @@ public class Modelo {
 			PreparedStatement pstms = miConexion.prepareStatement(query);
 			pstms.setString(1, userName);
 			pstms.setString(2, userPass);
-			
+
 			rs = pstms.executeQuery();
-			
+
 			if (rs.next()) {
 				System.out.println("Login correcto");
 				int administrador = rs.getInt("administrador");
@@ -134,146 +134,79 @@ public class Modelo {
 			}
 		}
 	}
-    
+
 //selects
-    /**
-     * Muestra todas las columnas de la tabla usuarios, solo los administradores pueden usarlo
-     * @return 
-     * @return 
-     */
-    public void getUsers() {
-        ResultSet rs = null;// las querys
-        if (this.USUARIO.equals("root")) {
-            try {
-                String query = "select * from usuarios;";
-                PreparedStatement pstms = miConexion.prepareStatement(query);
-                rs = pstms.executeQuery();
-
-                while (rs.next()) {
-                    int idUser = rs.getInt("id_usuario");
-                    String userName = rs.getString("nombreUsuario");
-                    String userPass = rs.getString("passwordUsuario");
-                    String userMail = rs.getString("correoUsuario");
-                    String userLocation = rs.getString("ciudadUsuario");
-                    System.out.println("USERS INFO: ID: " + idUser + " User name: " + userName + " User password: "
-                            + userPass + " User mail: " + userMail + " User location: " + userLocation);
-                    return ;
-
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        } else {
-            System.out.println("permiso denegado");
-        }
-		
-    }
-
-    /**
-     * Muestra todos los conciertos de la base de datos solo los
-     * administradores pueden usarlo
-     */
-    public void getShows() {
-
-        ResultSet rs = null;// las querys
-
-        if (this.USUARIO.equals("root")) {
-            try {
-                String query = "select * from conciertos;";
-                PreparedStatement pstms = miConexion.prepareStatement(query);
-                rs = pstms.executeQuery();
-
-                while (rs.next()) {
-                    int idShow = rs.getInt("id_concierto");
-                    int idBand = rs.getInt("id_grupo");
-                    String city = rs.getString("ciudad");
-                    String location = rs.getString("lugar");
-                    String ticketsLink = rs.getString("linkEntradas");
-
-                    System.out.println("SHOW INFO: Show ID: " + idShow + " Band ID: " + idBand + " Show city: " + city
-                            + " Show location: " + location + " Tickets link: " + ticketsLink);
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        } else {
-            System.out.println("permiso denegado");
-        }
-    }
-
-    /**
-     * Muestra todos los grupos de la base de datos, solo los
-     * administradores pueden usarlo
-     */
-    public void getBands() {
-        ResultSet rs = null;// las querys
-
-        if (this.USUARIO.equals("root")) {
-            try {
-                String query = "select * from grupos;";
-                PreparedStatement pstms = miConexion.prepareStatement(query);
-                rs = pstms.executeQuery();
-
-                while (rs.next()) {
-                    int bandID = rs.getInt("id_grupo");
-                    String bandName = rs.getString("nombreGrupo");
-                    String bandImgLink = rs.getString("imagenGrupo");
-
-                    System.out.println(
-                            "BANDS INFO: ID: " + bandID + " Band name: " + bandName + " Image link: " + bandImgLink);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        } else {
-            System.out.println("permiso denegado");
-        }
-    }
-    
-//Setters
-    public void setLogin(Login login) {
-        this.login = login;
-    }
-
-    public void setCreateAccount(CreateAccount createAccount) {
-        this.createAcc = createAccount;
-    }
-
-	public void setHome(Home home) {
-		this.home = home;
+	/**
+	 * Muestra todas las columnas de la tabla usuarios, solo los administradores
+	 * pueden usarlo
+	 * 
+	 * @return
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet getUsers() throws SQLException {
+		ResultSet rs = null;// las querys
+		if (this.USUARIO.equals("root")) {
+			String query = "select * from usuarios";
+			PreparedStatement pst = miConexion.prepareStatement(query);
+			try {
+				rs = pst.executeQuery();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return rs;
+		}
+		return rs;
 	}
 
-	public void setManageAcc(ManageAccount manageAcc) {
-		this.manageAcc = manageAcc;
+	/**
+	 * Muestra todos los conciertos de la base de datos solo los administradores
+	 * pueden usarlo
+	 * @return 
+	 * @throws SQLException 
+	 */
+	public ResultSet getShows() throws SQLException {
+		ResultSet rs = null;// las querys
+		if (this.USUARIO.equals("root")) {
+			String query = "select * from conciertos";
+			PreparedStatement pst = miConexion.prepareStatement(query);
+			try {
+				rs = pst.executeQuery();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return rs;
+		}
+		return rs;
+	}
+
+	/**
+	 * Muestra todos los grupos de la base de datos, solo los administradores pueden
+	 * usarlo
+	 * @return 
+	 * @throws SQLException 
+	 */
+	public ResultSet getBands() throws SQLException {
+		ResultSet rs = null;// las querys
+		if (this.USUARIO.equals("root")) {
+			String query = "select * from grupos";
+			PreparedStatement pst = miConexion.prepareStatement(query);
+			try {
+				rs = pst.executeQuery();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return rs;
+		}
+		return rs;
+	}
+
+//Setters
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 }
