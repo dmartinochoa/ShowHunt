@@ -54,20 +54,19 @@ public class DbTable extends JFrame {
 		scrollPane.setBounds(10, 55, 772, 414);
 		getContentPane().add(scrollPane);
 
+//DATA TABLE
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(
-				new Object[][] { { "IdUsuario", "NombreUsuario", "PasswordUsuario", "CorreoUsuario", "CiudadUsuario",
-						"Administrador" }, },
-				new String[] { "IdUsuario", "NombreUsuario", "PasswordUsuario", "CorreoUsuario", "CiudadUsuario",
-						"Administrador" }));
-		table.getColumnModel().getColumn(0).setPreferredWidth(95);
-		table.getColumnModel().getColumn(1).setPreferredWidth(84);
-		table.getColumnModel().getColumn(2).setPreferredWidth(94);
-		table.getColumnModel().getColumn(3).setPreferredWidth(138);
-		table.getColumnModel().getColumn(5).setPreferredWidth(104);
-
+			new Object[][] {
+				{},
+			},
+			new String[] {
+			}
+		));
+		
+//BOTONES
 		btnConcerts = new JButton("Concert List");
 		btnConcerts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
