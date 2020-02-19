@@ -18,7 +18,7 @@ public class Modelo {
 	private Home home;
 	private ManageAccount manageAcc;
 
-	private String USUARIO = "Admin";
+	private String USUARIO = "usuario";
 	private static String PASS = "1234";
 	private static final String BBDD = "showhuntdb";
 	private static final String URL = "jdbc:mysql://localhost:3306/" + BBDD;
