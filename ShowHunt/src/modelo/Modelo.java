@@ -35,8 +35,8 @@ public class Modelo {
 
     /**
      * metodo que establece la conexion con la base de datos se pasa como parametro
-     * el usuario de la base de datos, en el caso de que el usuario sea root se
-     * quita la password
+     * el usuario de la base de datos, en el caso de que el usuario sea administrador se
+     * conecta como root
      *
      * @return
      */
@@ -133,6 +133,125 @@ public class Modelo {
 		}
 	}
     
+//selects
+    /**
+     * Muestra todas las columnas de la tabla usuarios, solo los administradores pueden usarlo
+     */
+    public void getUsers() {
+        ResultSet rs = null;// las querys
+        if (this.USUARIO.equals("root")) {
+            try {
+                String query = "select * from usuarios;";
+                PreparedStatement pstms = miConexion.prepareStatement(query);
+                rs = pstms.executeQuery();
+
+                while (rs.next()) {
+                    int idUser = rs.getInt("id_usuario");
+                    String userName = rs.getString("nombreUsuario");
+                    String userPass = rs.getString("passwordUsuario");
+                    String userMail = rs.getString("correoUsuario");
+                    String userLocation = rs.getString("ciudadUsuario");
+
+                    System.out.println("USERS INFO: ID: " + idUser + " User name: " + userName + " User password: "
+                            + userPass + " User mail: " + userMail + " User location: " + userLocation);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("permiso denegado");
+        }
+    }
+
+    /**
+     * Muestra todos los conciertos de la base de datos solo los
+     * administradores pueden usarlo
+     */
+    public void getShows() {
+
+        ResultSet rs = null;// las querys
+
+        if (this.USUARIO.equals("root")) {
+            try {
+                String query = "select * from conciertos;";
+                PreparedStatement pstms = miConexion.prepareStatement(query);
+                rs = pstms.executeQuery();
+
+                while (rs.next()) {
+                    int idShow = rs.getInt("id_concierto");
+                    int idBand = rs.getInt("id_grupo");
+                    String city = rs.getString("ciudad");
+                    String location = rs.getString("lugar");
+                    String ticketsLink = rs.getString("linkEntradas");
+
+                    System.out.println("SHOW INFO: Show ID: " + idShow + " Band ID: " + idBand + " Show city: " + city
+                            + " Show location: " + location + " Tickets link: " + ticketsLink);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("permiso denegado");
+        }
+    }
+
+    /**
+     * Muestra todos los grupos de la base de datos, solo los
+     * administradores pueden usarlo
+     */
+    public void getBands() {
+        ResultSet rs = null;// las querys
+
+        if (this.USUARIO.equals("root")) {
+            try {
+                String query = "select * from grupos;";
+                PreparedStatement pstms = miConexion.prepareStatement(query);
+                rs = pstms.executeQuery();
+
+                while (rs.next()) {
+                    int bandID = rs.getInt("id_grupo");
+                    String bandName = rs.getString("nombreGrupo");
+                    String bandImgLink = rs.getString("imagenGrupo");
+
+                    System.out.println(
+                            "BANDS INFO: ID: " + bandID + " Band name: " + bandName + " Image link: " + bandImgLink);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("permiso denegado");
+        }
+    }
     
 //Setters
     public void setLogin(Login login) {
