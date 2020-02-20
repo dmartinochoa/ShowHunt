@@ -105,11 +105,13 @@ public class Modelo {
 			if (rs.next()) {
 				System.out.println("Login correcto");
 				int administrador = rs.getInt("administrador");
+				miConexion.close();
 				if (administrador == 1) {
 					this.USUARIO = "root";
 					this.conectar(this.USUARIO);
 					System.out.println("conectado como root");
 				} else {
+					this.conectar(this.USUARIO);
 					System.out.println("conectado como usuario");
 				}
 				this.user = userName;

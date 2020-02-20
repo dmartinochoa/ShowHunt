@@ -19,7 +19,6 @@ public class Main {
 		model.setLogin(login);
 
 		login.setVisible(true);
-		model.conectar("usuario");
 
 	}
 
