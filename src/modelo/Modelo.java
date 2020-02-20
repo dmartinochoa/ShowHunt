@@ -137,6 +137,54 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Metodo para registrar usuarios, el Id de usuario se autoincrementa, por
+	 * defecto el nuevo usuario tendra el rol de user
+	 *
+	 * @param userName
+	 * @param userPass
+	 * @param userMail
+	 * @param userCity
+	 */
+	public boolean registerUser(String userName, String userPass, String userMail, String userCity) {
+		ResultSet rs = null;
+
+		try {
+			String selectQuery = "select nombreUsuario , correoUsuario from usuarios where nombreUsuario = '?' or correoUsuario = '?';";
+			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
+			selectPstms.setString(1, userName);
+			selectPstms.setString(2, userMail);
+			rs = selectPstms.executeQuery();
+
+			if (!rs.next()) {
+				String insertQuery = "insert into usuarios(nombreUsuario, passwordUsuario, correoUsuario, ciudadUsuario) values(?,?,?,?);";
+				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
+				insertPstms.setString(1, userName);
+				insertPstms.setString(2, userPass);
+				insertPstms.setString(3, userMail);
+				insertPstms.setString(4, userCity);
+				insertPstms.executeUpdate();
+
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void closeSession() {
+        if (miConexion != null) {
+            try {
+                miConexion.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 //selects
 	/**
 	 * Muestra todas las columnas de la tabla usuarios, solo los administradores
