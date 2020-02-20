@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -18,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.RoundRectangle2D;
-import java.sql.SQLException;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +38,7 @@ public class DbTable extends JFrame {
 	private JButton btnUsers;
 	private JButton btnConcerts;
 	private JButton btnBand;
+	private final JButton btnBack = new JButton("Back");
 
 	public DbTable() {
 		setTitle("ShowHunt");
@@ -62,6 +61,7 @@ public class DbTable extends JFrame {
 
 //BOTONES
 		btnConcerts = new JButton("Concert List");
+		btnConcerts.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		btnConcerts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				table.setModel(DbUtils.resultSetToTableModel(model.getShows()));
@@ -72,6 +72,7 @@ public class DbTable extends JFrame {
 		getContentPane().add(btnConcerts);
 
 		btnUsers = new JButton("User List");
+		btnUsers.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		btnUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				table.setModel(DbUtils.resultSetToTableModel(model.getUsers()));
@@ -81,6 +82,7 @@ public class DbTable extends JFrame {
 		getContentPane().add(btnUsers);
 
 		btnBand = new JButton("Band List");
+		btnBand.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		btnBand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				table.setModel(DbUtils.resultSetToTableModel(model.getBands()));
@@ -88,6 +90,15 @@ public class DbTable extends JFrame {
 		});
 		btnBand.setBounds(269, 11, 109, 23);
 		getContentPane().add(btnBand);
+		btnBack.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				control.goToLogin();
+			}
+		});
+
+		btnBack.setBounds(592, 12, 69, 23);
+		getContentPane().add(btnBack);
 
 // EXIT
 		lblExit = new JLabel("x");

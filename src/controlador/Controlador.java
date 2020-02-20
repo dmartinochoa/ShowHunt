@@ -1,6 +1,7 @@
 package controlador;
 
 import modelo.Modelo;
+
 import windows.*;
 
 public class Controlador {
@@ -12,22 +13,23 @@ public class Controlador {
 	private LoginFailed loginFailed;
 	private DbTable dbTable;
 
+	private int loginAttempts = 0;
+
 // VISTA LOGIN
-	int loginAttempts = 0;
 
 	// Boton de iniciar session
 	public void loginPress(String userName, String userPass) {
 		// comprobacion de usuario/contraseña para acceder
 		if (model.loginUser(userName, userPass)) {
 			this.login.dispose();
-			if (home != null) {
-				this.home.setVisible(true);
+			if (userName.equals("Admin")) {
+				this.dbTable = new DbTable();
+				this.dbTable.setControl(this);
+				this.dbTable.setModelo(model);
+				this.dbTable.setVisible(true);
 			} else {
-				if (userName.equals("Admin")) {
-					this.dbTable = new DbTable();
-					this.dbTable.setControl(this);
-					this.dbTable.setModelo(model);
-					this.dbTable.setVisible(true);
+				if (home != null) {
+					this.home.setVisible(true);
 				} else {
 					this.home = new Home();
 					this.home.setControl(this);
@@ -101,8 +103,10 @@ public class Controlador {
 		if (home != null) {
 			this.home.dispose();
 		}
+		if (dbTable != null) {
+			this.dbTable.dispose();
+		}
 		this.login.setVisible(true);
-
 	}
 
 // Setters

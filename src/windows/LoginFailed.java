@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -108,7 +107,6 @@ public class LoginFailed extends JFrame {
 			}
 		});
 	}
-
 
 // SETTERS
 	public void setControl(Controlador control) {

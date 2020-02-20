@@ -2,7 +2,7 @@ package modelo;
 
 import windows.*;
 
-import java.awt.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,10 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-
-import controlador.*;
 
 public class Modelo {
 	private Login login;
