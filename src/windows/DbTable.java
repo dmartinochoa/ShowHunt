@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -58,14 +57,8 @@ public class DbTable extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setFont(new Font("SansSerif", Font.PLAIN, 14));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{},
-			},
-			new String[] {
-			}
-		));
-		
+		table.setModel(new DefaultTableModel(new Object[][] { {}, }, new String[] {}));
+
 //BOTONES
 		btnConcerts = new JButton("Concert List");
 		btnConcerts.addActionListener(new ActionListener() {
@@ -73,7 +66,6 @@ public class DbTable extends JFrame {
 				try {
 					table.setModel(DbUtils.resultSetToTableModel(model.getShows()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -88,7 +80,6 @@ public class DbTable extends JFrame {
 				try {
 					table.setModel(DbUtils.resultSetToTableModel(model.getUsers()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -102,13 +93,21 @@ public class DbTable extends JFrame {
 				try {
 					table.setModel(DbUtils.resultSetToTableModel(model.getBands()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
 		btnBand.setBounds(269, 11, 109, 23);
 		getContentPane().add(btnBand);
+
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				control.goToLogin();
+			}
+		});
+		btnBack.setBounds(599, 11, 89, 23);
+		getContentPane().add(btnBack);
 
 // EXIT
 		lblExit = new JLabel("x");

@@ -177,14 +177,15 @@ public class Modelo {
 	}
 
 	public void closeSession() {
-        if (miConexion != null) {
-            try {
-                miConexion.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+		if (miConexion != null) {
+			try {
+				miConexion.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 //selects
 	/**
 	 * Muestra todas las columnas de la tabla usuarios, solo los administradores
