@@ -8,7 +8,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import controlador.*;
 
@@ -88,6 +91,33 @@ public class Modelo {
 			}
 		}
 		return userID;
+	}
+
+	public int getBandID(String bandName) {
+		ResultSet rs = null;
+		int bandID = 0;
+		try {
+			String selectQuery = "select id_grupo from usuarios where nombreGrupo = '" + bandName + "';";
+			PreparedStatement pstms = miConexion.prepareStatement(selectQuery);
+			rs = pstms.executeQuery();
+
+			if (rs.next()) {
+				bandID = rs.getInt("id_usuario");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bandID;
 	}
 
 	public boolean loginUser(String userName, String userPass) {
@@ -195,18 +225,16 @@ public class Modelo {
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResultSet getUsers() throws SQLException {
+	public ResultSet getUsers() {
 		ResultSet rs = null;// las querys
-		if (this.USUARIO.equals("root")) {
-			String query = "select * from usuarios";
-			PreparedStatement pst = miConexion.prepareStatement(query);
-			try {
+		try {
+			if (this.USUARIO.equals("root")) {
+				String query = "select * from usuarios";
+				PreparedStatement pst = miConexion.prepareStatement(query);
 				rs = pst.executeQuery();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return rs;
 	}
@@ -218,18 +246,16 @@ public class Modelo {
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResultSet getShows() throws SQLException {
+	public ResultSet getShows() {
 		ResultSet rs = null;// las querys
-		if (this.USUARIO.equals("root")) {
-			String query = "select * from conciertos";
-			PreparedStatement pst = miConexion.prepareStatement(query);
-			try {
+		try {
+			if (this.USUARIO.equals("root")) {
+				String query = "select * from conciertos";
+				PreparedStatement pst = miConexion.prepareStatement(query);
 				rs = pst.executeQuery();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return rs;
 	}
@@ -241,20 +267,151 @@ public class Modelo {
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResultSet getBands() throws SQLException {
+	public ResultSet getBands() {
 		ResultSet rs = null;// las querys
-		if (this.USUARIO.equals("root")) {
-			String query = "select * from grupos";
-			PreparedStatement pst = miConexion.prepareStatement(query);
-			try {
+		try {
+			if (this.USUARIO.equals("root")) {
+				String query = "select * from grupos";
+				PreparedStatement pst = miConexion.prepareStatement(query);
 				rs = pst.executeQuery();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return rs;
+	}
+
+//Search methods
+
+	public ResultSet searchByBand(String searchedBandName) {
+		ResultSet rs = null;// las querys
+		try {
+			String selectQuery = "select g.id_grupo, nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
+					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n" + "    where nombreGrupo = ?;";
+			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
+			selectPstms.setString(1, searchedBandName);
+			rs = selectPstms.executeQuery();
+
+			if (rs.next()) {
+				int userID = this.getUserID();
+				int bandID = this.getBandID(searchedBandName);
+				String insertQuery = "insert into historial(id_usuario, historial.id_grupo)\r\n" + "values('" + userID
+						+ "','" + bandID + "');";
+				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
+				insertPstms.executeUpdate();
+			} else {
+				System.out.println("No hay registros relacionados con el criterio de busqueda");
+			}
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rs;
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public ResultSet searchByCity(String city) {
+
+		ResultSet rs = null;// las querys
+		try {
+			String query = "select nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
+					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n" + "    where ciudad  = ? ;";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setString(1, city);
+			rs = pstms.executeQuery();
+
+			if (!rs.next()) {
+				System.out.println("No hay registros relacionados con el criterio de busqueda");
+			}
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rs;
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public ResultSet searchByDate(int time) {
+		Statement stm = null;// cosa que hace query
+		ResultSet rs = null;// las querys
+
+		try {
+			stm = miConexion.createStatement();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar date = Calendar.getInstance();
+			String stringDate = sdf.format(date.getTime());
+
+			date.add(Calendar.DAY_OF_MONTH, time);
+			String newStringDate = sdf.format(date.getTime());
+
+			String query = "select nombreGrupo,ciudad,lugar,fecha,linkEntradas from conciertos\r\n"
+					+ "inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n" + "where fecha > '" + stringDate
+					+ "' and fecha < '" + newStringDate + "';";
+			System.out.println(query);
+			rs = stm.executeQuery(query);
+
+			if (!rs.next()) {
+				System.out.println("No hay registros relacionados con el criterio de busqueda");
+			}
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rs;
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public ResultSet searchByGenre(String genre) {
+		ResultSet rs = null;
+
+		try {
+			String query = "select nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
+					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n" + "    where genero  = ? ;";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setString(1, genre);
+			rs = pstms.executeQuery();
+
+			if (!rs.next()) {
+				System.out.println("No hay registros relacionados con el criterio de busqueda");
+			}
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rs;
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
 //Setters

@@ -2,7 +2,6 @@ package windows;
 
 import controlador.*;
 
-
 import modelo.*;
 
 import javax.swing.JFrame;
@@ -10,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;

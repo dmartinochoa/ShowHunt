@@ -11,23 +11,23 @@ public class Controlador {
 	private ManageAccount manageAcc;
 	private LoginFailed loginFailed;
 	private DbTable dbTable;
-	private int loginAttempts = 0;
 
 // VISTA LOGIN
+	int loginAttempts = 0;
 
 	// Boton de iniciar session
 	public void loginPress(String userName, String userPass) {
 		// comprobacion de usuario/contraseña para acceder
 		if (model.loginUser(userName, userPass)) {
 			this.login.dispose();
-			if (userName.equals("Admin")) {
-				this.dbTable = new DbTable();
-				this.dbTable.setControl(this);
-				this.dbTable.setModelo(model);
-				this.dbTable.setVisible(true);
+			if (home != null) {
+				this.home.setVisible(true);
 			} else {
-				if (home != null) {
-					this.home.setVisible(true);
+				if (userName.equals("Admin")) {
+					this.dbTable = new DbTable();
+					this.dbTable.setControl(this);
+					this.dbTable.setModelo(model);
+					this.dbTable.setVisible(true);
 				} else {
 					this.home = new Home();
 					this.home.setControl(this);
@@ -38,19 +38,17 @@ public class Controlador {
 		} else {
 			login.loginMessage();
 			loginAttempts++;
-			if (loginAttempts >= 3) {
-				login.dispose();
-				this.loginFailed = new LoginFailed();
-				this.loginFailed.setVisible(true);
-				new java.util.Timer().schedule(new java.util.TimerTask() {
-					@Override
-					public void run() {
-						loginFailed.dispose();
-						System.exit(0);
-
-					}
-				}, 1500);
-			}
+		}
+		if (loginAttempts >= 3) {
+			login.dispose();
+			this.loginFailed = new LoginFailed();
+			this.loginFailed.setVisible(true);
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					loginFailed.dispose();
+				}
+			}, 1500);
 		}
 
 	}
@@ -95,7 +93,7 @@ public class Controlador {
 
 	}
 
-// temporal para volver a la vista de login desde donde sea
+// temporal para volver a la vista de login 
 	public void goToLogin() {
 		if (createAcc != null) {
 			this.createAcc.dispose();
@@ -103,18 +101,11 @@ public class Controlador {
 		if (home != null) {
 			this.home.dispose();
 		}
-		if (dbTable != null) {
-			this.dbTable.dispose();
-		}
 		this.login.setVisible(true);
 
 	}
 
 // Setters
-	public void superSetter(Controlador control, Modelo model) {
-
-	}
-
 	public void setModelo(Modelo model) {
 		this.model = model;
 	}

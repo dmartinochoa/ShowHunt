@@ -10,22 +10,32 @@ import modelo.Modelo;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.Cursor;
+import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JScrollBar;
+import java.awt.ScrollPane;
 import javax.swing.ListSelectionModel;
 
 public class Home extends JFrame {
@@ -79,14 +89,10 @@ public class Home extends JFrame {
 		listConcert.setFont(new Font("SansSerif", Font.BOLD, 15));
 		listConcert.setForeground(Color.WHITE);
 		listConcert.setModel(new AbstractListModel() {
-			String[] values = new String[] { "tes", "", "s", "sd", "fds", "dsf", "ds", "", "d", "df", "ds", "fds", "sd",
-					"d", "ds", "ffd", "s", "df", "dfs", "dfs", "dfs", "dsf", "d", "fs", "dfs", "ds", "dsf", "dsf",
-					"dfs", "ds", "f", "dfs", "dsf", "dfs", "dfs", "dfs", "sdf", "d", "sdf" };
-
+			String[] values = new String[] {"tes", "", "s", "sd", "fds", "dsf", "ds", "", "d", "df", "ds", "fds", "sd", "d", "ds", "ffd", "s", "df", "dfs", "dfs", "dfs", "dsf", "d", "fs", "dfs", "ds", "dsf", "dsf", "dfs", "ds", "f", "dfs", "dsf", "dfs", "dfs", "dfs", "sdf", "d", "sdf"};
 			public int getSize() {
 				return values.length;
 			}
-
 			public Object getElementAt(int index) {
 				return values[index];
 			}
@@ -94,7 +100,7 @@ public class Home extends JFrame {
 		listConcert.setOpaque(false);
 		listConcert.setCellRenderer(new TransparentListCellRenderer());
 		listConcert.setBounds(25, 158, 751, 304);
-		getContentPane().add(listConcert);
+		//getContentPane().add(listConcert);
 
 // LABELS
 		// Logo
