@@ -173,15 +173,12 @@ public class Modelo {
 	 * @param userCity
 	 */
 	public boolean registerUser(String userName, String userPass, String userMail, String userCity) {
-		try {
-			miConexion = DriverManager.getConnection(URL, "usuario", PASS);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		ResultSet rs = null;
 		try {
-			String selectQuery = "select nombreUsuario , correoUsuario fro m usuarios where nombreUsuario = ? or correoUsuario = ?;";
+			this.conectar(this.USUARIO);
+			
+			String selectQuery = "select nombreUsuario , correoUsuario from usuarios where nombreUsuario = ? or correoUsuario = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 			selectPstms.setString(1, userName);
 			selectPstms.setString(2, userMail);
@@ -202,7 +199,7 @@ public class Modelo {
 				closeSession();
 				return false;
 			}
-
+			
 		} catch (SQLException e) {
 			closeSession();
 			e.printStackTrace();
