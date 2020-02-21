@@ -63,16 +63,20 @@ public class Controlador {
 		} else {
 			this.createAcc = new CreateAccount();
 			this.createAcc.setControl(this);
-			this.createAcc.setModelo(model);
+			this.createAcc.setModelo(this.model);
 			this.createAcc.setVisible(true);
 		}
 	}
 
 // VISTA CREATE ACCOUNT
 	// Boton para crear usuario y volver a la vista de login
-	public void createAccountPress() {
-		this.createAcc.dispose();
-		this.login.setVisible(true);
+	public void createAccountPress(String userName, String userPass, String userMail, String userCity) {
+		if (model.registerUser(userName, userPass, userMail, userCity)) {
+			this.createAcc.dispose();
+			this.login.setVisible(true);
+		} else {
+			createAcc.userExist();
+		}
 	}
 
 // VISTA PRINCIPAL

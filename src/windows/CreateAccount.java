@@ -2,7 +2,6 @@ package windows;
 
 import controlador.*;
 
-
 import modelo.*;
 
 import java.awt.Color;
@@ -297,9 +296,10 @@ public class CreateAccount extends JFrame {
 				&& txtUsername.getText().length() > 0 && comboBoxCity.getSelectedItem() != null) {
 			// Despues comprueba que los campos sean validos
 			if (checkTerms.isSelected() && Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
-				// Aqui deberia comprobar que el usuario/email no existe en la base de datos
-				control.createAccountPress();
-				// pdwHash sera la variable que guardaremos como contraseña
+
+				control.createAccountPress(txtUsername.getText(), txtPwd.getText(), txtEmail.getText(),
+						comboBoxCity.getSelectedItem().toString());
+
 				String pwdHash = String.valueOf(txtPwd.getText().hashCode());
 			} else if (checkTerms.isSelected() && Arrays.equals(pwd, pwdCheck) && pwd.length < 8) {
 				JOptionPane.showMessageDialog(checkTerms, "Your password must be at least 8 characters long");
@@ -311,6 +311,11 @@ public class CreateAccount extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(checkTerms, "You must fill out all the fields");
 		}
+	}
+
+//User Exists Alert
+	public void userExist() {
+		JOptionPane.showMessageDialog(checkTerms, "Username/Email already in use");
 	}
 
 // Setters
