@@ -101,6 +101,7 @@ public class Controlador {
 
 // temporal para volver a la vista de login 
 	public void goToLogin() {
+		model.closeSession();
 		if (createAcc != null) {
 			this.createAcc.dispose();
 		}

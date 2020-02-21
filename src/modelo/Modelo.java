@@ -181,7 +181,7 @@ public class Modelo {
 		}
 		ResultSet rs = null;
 		try {
-			String selectQuery = "select nombreUsuario , correoUsuario from usuarios where nombreUsuario = ? or correoUsuario = ?;";
+			String selectQuery = "select nombreUsuario , correoUsuario fro m usuarios where nombreUsuario = ? or correoUsuario = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 			selectPstms.setString(1, userName);
 			selectPstms.setString(2, userMail);
