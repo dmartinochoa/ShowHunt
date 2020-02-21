@@ -2,7 +2,6 @@ package modelo;
 
 import windows.*;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -174,8 +173,13 @@ public class Modelo {
 	 * @param userCity
 	 */
 	public boolean registerUser(String userName, String userPass, String userMail, String userCity) {
+		try {
+			miConexion = DriverManager.getConnection(URL, "usuario", PASS);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		ResultSet rs = null;
-
 		try {
 			String selectQuery = "select nombreUsuario , correoUsuario from usuarios where nombreUsuario = ? or correoUsuario = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
@@ -192,13 +196,15 @@ public class Modelo {
 				insertPstms.setString(3, userMail);
 				insertPstms.setString(4, userCity);
 				insertPstms.executeUpdate();
-
+				closeSession();
 				return true;
 			} else {
+				closeSession();
 				return false;
 			}
 
 		} catch (SQLException e) {
+			closeSession();
 			e.printStackTrace();
 			return false;
 		}
@@ -208,6 +214,7 @@ public class Modelo {
 		if (miConexion != null) {
 			try {
 				miConexion.close();
+				System.out.println("session cerrada");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
