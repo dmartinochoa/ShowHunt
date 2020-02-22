@@ -166,7 +166,7 @@ public class Login extends JFrame {
 		lblExit.setForeground(Color.WHITE);
 		lblExit.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 40));
 		lblPassword.setForeground(Color.WHITE);
-		lblExit.setBounds(752, 11, 30, 33);
+		lblExit.setBounds(752, 11, 38, 33);
 		getContentPane().add(lblExit);
 		lblExit.addMouseListener(new MouseAdapter() {
 			@Override

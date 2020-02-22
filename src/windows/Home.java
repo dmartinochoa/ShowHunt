@@ -32,6 +32,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class Home extends JFrame {
 	private Controlador control;
@@ -53,6 +55,7 @@ public class Home extends JFrame {
 	private JComboBox comboBoxGenre;
 	private JButton btnSearch;
 	private JLabel lblCity;
+	private JTable tableConcert;
 
 	public Home() {
 		getContentPane().setBackground(Color.DARK_GRAY);
@@ -66,15 +69,23 @@ public class Home extends JFrame {
 		setShape(new RoundRectangle2D.Double(0, 0, 800, 500, 40, 40));
 		getContentPane().setLayout(null);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(25, 139, 751, 257);
+
 // CONCERT LIST
-		JList listConcert = new JList();
-		listConcert.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listConcert.setFont(new Font("SansSerif", Font.BOLD, 15));
-		listConcert.setForeground(Color.WHITE);
-		listConcert.setOpaque(false);
-		listConcert.setCellRenderer(new TransparentListCellRenderer());
-		listConcert.setBounds(25, 158, 751, 304);
-		getContentPane().add(listConcert);
+		getContentPane().add(scrollPane);
+
+		tableConcert = new JTable();
+		tableConcert.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		scrollPane.setViewportView(tableConcert);
+//		JList listConcert = new JList();
+//		listConcert.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		listConcert.setFont(new Font("SansSerif", Font.BOLD, 15));
+//		listConcert.setForeground(Color.WHITE);
+//		listConcert.setOpaque(false);
+//		listConcert.setCellRenderer(new TransparentListCellRenderer());
+//		listConcert.setBounds(25, 158, 751, 304);
+//		getContentPane().add(listConcert);
 
 // LABELS
 		// Logo
@@ -163,8 +174,7 @@ public class Home extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// listConcert.setListData(model.searchByBand(txtBandName.getText()).toArray());
-				listConcert.setListData(test.toArray());
-				;
+				tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText())));
 			}
 		});
 		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -234,7 +244,7 @@ public class Home extends JFrame {
 
 // EXIT
 		lblExit = new JLabel("x");
-		lblExit.setBounds(752, 11, 24, 33);
+		lblExit.setBounds(752, 11, 38, 33);
 		lblExit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
