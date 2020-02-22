@@ -173,11 +173,11 @@ public class Modelo {
 	 * @param userCity
 	 */
 	public boolean registerUser(String userName, String userPass, String userMail, String userCity) {
-		
+
 		ResultSet rs = null;
 		try {
 			this.conectar(this.USUARIO);
-			
+
 			String selectQuery = "select nombreUsuario , correoUsuario from usuarios where nombreUsuario = ? or correoUsuario = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 			selectPstms.setString(1, userName);
@@ -199,7 +199,7 @@ public class Modelo {
 				closeSession();
 				return false;
 			}
-			
+
 		} catch (SQLException e) {
 			closeSession();
 			e.printStackTrace();
@@ -284,7 +284,6 @@ public class Modelo {
 	}
 
 //Search methods
-
 	public ResultSet searchByBand(String searchedBandName) {
 		ResultSet rs = null;// las querys
 		try {

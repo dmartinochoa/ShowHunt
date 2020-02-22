@@ -2,11 +2,11 @@ package windows;
 
 import javax.swing.ImageIcon;
 
-
 import javax.swing.JFrame;
 
 import controlador.Controlador;
 import modelo.Modelo;
+import net.proteanit.sql.DbUtils;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.awt.Cursor;
 
 import javax.swing.JLabel;
@@ -23,11 +24,14 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 	private Controlador control;
@@ -62,36 +66,15 @@ public class Home extends JFrame {
 		setShape(new RoundRectangle2D.Double(0, 0, 800, 500, 40, 40));
 		getContentPane().setLayout(null);
 
-// BOTONES 
-		btnSearch = new JButton("Search");
-		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));
-		btnSearch.setBounds(415, 85, 75, 23);
-		getContentPane().add(btnSearch);
-		btnSearch.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		});
-
 // CONCERT LIST
 		JList listConcert = new JList();
 		listConcert.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listConcert.setFont(new Font("SansSerif", Font.BOLD, 15));
 		listConcert.setForeground(Color.WHITE);
-		listConcert.setModel(new AbstractListModel() {
-			String[] values = new String[] {"tes", "", "s", "sd", "fds", "dsf", "ds", "", "d", "df", "ds", "fds", "sd", "d", "ds", "ffd", "s", "df", "dfs", "dfs", "dfs", "dsf", "d", "fs", "dfs", "ds", "dsf", "dsf", "dfs", "ds", "f", "dfs", "dsf", "dfs", "dfs", "dfs", "sdf", "d", "sdf"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
 		listConcert.setOpaque(false);
 		listConcert.setCellRenderer(new TransparentListCellRenderer());
 		listConcert.setBounds(25, 158, 751, 304);
-		//getContentPane().add(listConcert);
+		getContentPane().add(listConcert);
 
 // LABELS
 		// Logo
@@ -172,6 +155,27 @@ public class Home extends JFrame {
 		txtCity.setColumns(10);
 		txtCity.setBounds(285, 86, 120, 20);
 		getContentPane().add(txtCity);
+
+// BOTONES
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("info conciertos");
+		btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// listConcert.setListData(model.searchByBand(txtBandName.getText()).toArray());
+				listConcert.setListData(test.toArray());
+				;
+			}
+		});
+		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));
+		btnSearch.setBounds(415, 85, 75, 23);
+		getContentPane().add(btnSearch);
+		btnSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
 
 //COMBO BOX
 		comboBoxGenre = new JComboBox();

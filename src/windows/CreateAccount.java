@@ -314,7 +314,7 @@ public class CreateAccount extends JFrame {
 	}
 
 //User Exists Alert
-	public void userExist() {
+	public void userExistMessage() {
 		JOptionPane.showMessageDialog(checkTerms, "Username/Email already in use");
 	}
 

@@ -75,7 +75,7 @@ public class Controlador {
 			this.createAcc.dispose();
 			this.login.setVisible(true);
 		} else {
-			createAcc.userExist();
+			createAcc.userExistMessage();
 		}
 	}
 
@@ -111,7 +111,14 @@ public class Controlador {
 		if (dbTable != null) {
 			this.dbTable.dispose();
 		}
-		this.login.setVisible(true);
+		if (login != null) {
+			this.login.setVisible(true);
+		} else {
+			this.login = new Login();
+			this.login.setControl(this);
+			this.login.setModelo(model);
+			this.login.setVisible(true);
+		}
 	}
 
 // Setters
