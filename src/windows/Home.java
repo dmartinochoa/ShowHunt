@@ -174,7 +174,7 @@ public class Home extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// listConcert.setListData(model.searchByBand(txtBandName.getText()).toArray());
-				tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText())));
+				tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
 			}
 		});
 		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));
