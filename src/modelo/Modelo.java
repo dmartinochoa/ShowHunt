@@ -2,6 +2,10 @@ package modelo;
 
 import windows.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Properties;
 
 public class Modelo {
 	private Login login;
@@ -17,20 +22,44 @@ public class Modelo {
 	private Home home;
 	private ManageAccount manageAcc;
 
-	private String USUARIO = "usuario";
-	private static String PASS = "1234";
-	private static final String BBDD = "showhuntdb";
-	private static final String URL = "jdbc:mysql://localhost:3306/" + BBDD;
-	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private String USUARIO;
+	private String PASS;
+	private String URL;
+	private String DRIVER;
 	private static String user;
 	private Connection miConexion;
 
 	public Modelo() {
+		Properties propiedades = new Properties();
+		InputStream entrada = null;
 		try {
-			Class.forName(DRIVER);
-		} catch (Exception e) {
-			System.out.println("Error al cargar el driver");
-			e.printStackTrace();
+			File miFichero = new File("config/Prop.ini");
+			if (miFichero.exists()) {
+				entrada = new FileInputStream(miFichero);
+				propiedades.load(entrada);
+
+				this.USUARIO = propiedades.getProperty("USUARIO");
+				this.PASS = propiedades.getProperty("PASS");
+				this.URL = propiedades.getProperty("URL");
+				this.DRIVER = propiedades.getProperty("DRIVER");
+
+				System.out.println(this.USUARIO);
+				System.out.println(this.PASS);
+				System.out.println(this.URL);
+				System.out.println(this.DRIVER);
+
+			} else
+				System.err.println("Fichero no encontrado");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (entrada != null) {
+				try {
+					entrada.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -47,10 +76,11 @@ public class Modelo {
 			this.PASS = "";
 		}
 		try {
+			Class.forName(DRIVER);
 			miConexion = DriverManager.getConnection(URL, conexionUser, PASS);
 			System.out.println("Conexión OK");
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("Error en la conexión");
 			e.printStackTrace();
 		}
@@ -98,7 +128,7 @@ public class Modelo {
 			pstms.setString(1, bandName);
 			rs = pstms.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				bandID = rs.getInt("id_grupo");
 			}
 
@@ -174,11 +204,11 @@ public class Modelo {
 	 * @param userCity
 	 */
 	public boolean registerUser(String userName, String userPass, String userMail, String userCity) {
-		
+
 		ResultSet rs = null;
 		try {
 			this.conectar(this.USUARIO);
-			
+
 			String selectQuery = "select nombreUsuario , correoUsuario from usuarios where nombreUsuario = ? or correoUsuario = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 			selectPstms.setString(1, userName);
@@ -200,7 +230,7 @@ public class Modelo {
 				closeSession();
 				return false;
 			}
-			
+
 		} catch (SQLException e) {
 			closeSession();
 			e.printStackTrace();
@@ -300,7 +330,7 @@ public class Modelo {
 				int bandID = this.getBandID(searchedBandName);
 				String insertQuery = "insert into historial(id_usuario, id_grupo) values(?,?);";
 				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
-				insertPstms.setInt(1,userID);
+				insertPstms.setInt(1, userID);
 				insertPstms.setInt(2, bandID);
 				insertPstms.executeUpdate();
 			} else {
@@ -314,8 +344,8 @@ public class Modelo {
 		} finally {
 			try {
 				if (rs != null) {
-					//rs.close();
-					//el rs.close daba un error
+					// rs.close();
+					// el rs.close daba un error
 				}
 
 			} catch (Exception e2) {
