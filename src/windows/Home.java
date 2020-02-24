@@ -169,13 +169,21 @@ public class Home extends JFrame {
 		getContentPane().add(txtCity);
 
 // BOTONES
-		//ArrayList<String> test = new ArrayList<String>();
-		//test.add("info conciertos");
+
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// listConcert.setListData(model.searchByBand(txtBandName.getText()).toArray());
-				tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+
+				if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
+					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+					
+				} else if (!(txtCity.getText().trim().equals("")) && txtBandName.getText().trim().equals("")) {
+					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
+					
+				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
+					// llamar a un metodo que busque por grupo y ciudad que todavia no he hecho
+					System.out.println("it works");
+				}
 			}
 		});
 		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));

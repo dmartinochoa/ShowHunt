@@ -319,7 +319,7 @@ public class Modelo {
 	public ResultSet searchByBand(String searchedBandName) {
 		ResultSet rs = null;// las querys
 		try {
-			String selectQuery = "select g.id_grupo, nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
+			String selectQuery = "select nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
 					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo where nombreGrupo = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 
@@ -341,16 +341,6 @@ public class Modelo {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return rs;
-		} finally {
-			try {
-				if (rs != null) {
-					// rs.close();
-					// el rs.close daba un error
-				}
-
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
 	}
 
@@ -367,19 +357,11 @@ public class Modelo {
 			if (!rs.next()) {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
 			}
+			rs.beforeFirst();
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return rs;
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
 	}
 
@@ -406,18 +388,11 @@ public class Modelo {
 			if (!rs.next()) {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
 			}
+			rs.beforeFirst();
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return rs;
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
 	}
 
