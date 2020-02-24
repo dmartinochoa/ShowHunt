@@ -181,7 +181,7 @@ public class Home extends JFrame {
 					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
 					
 				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
-					// llamar a un metodo que busque por grupo y ciudad que todavia no he hecho
+					tableConcert.setModel(DbUtils.resultSetToTableModel(model.cityAndBandSearch(txtCity.getText().trim(),txtBandName.getText().trim())));
 					System.out.println("it works");
 				}
 			}

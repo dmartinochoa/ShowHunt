@@ -364,6 +364,27 @@ public class Modelo {
 			return rs;
 		}
 	}
+	
+	public ResultSet cityAndBandSearch(String city,String bandName) {
+		ResultSet rs = null;// las querys
+		try {
+			String query = "select nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
+					+ " inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n where ciudad  = ? and nombreGrupo = ? ;";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setString(1, city);
+			pstms.setString(2, bandName);
+			rs = pstms.executeQuery();
+
+			if (!rs.next()) {
+				System.out.println("No hay registros relacionados con el criterio de busqueda");
+			}
+			rs.beforeFirst();
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rs;
+		}
+	}
 
 	public ResultSet searchByDate(int time) {
 		Statement stm = null;// cosa que hace query
