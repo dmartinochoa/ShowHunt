@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.awt.Cursor;
 
@@ -168,8 +169,8 @@ public class Home extends JFrame {
 		getContentPane().add(txtCity);
 
 // BOTONES
-		ArrayList<String> test = new ArrayList<String>();
-		test.add("info conciertos");
+		//ArrayList<String> test = new ArrayList<String>();
+		//test.add("info conciertos");
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

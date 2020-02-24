@@ -290,18 +290,15 @@ public class Modelo {
 		ResultSet rs = null;// las querys
 		try {
 			String selectQuery = "select g.id_grupo, nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
-					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n" + "    where nombreGrupo = ?;";
+					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo where nombreGrupo = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
+
 			selectPstms.setString(1, searchedBandName);
 			rs = selectPstms.executeQuery();
-
 			if (rs.next()) {
 				int userID = this.getUserID();
 				int bandID = this.getBandID(searchedBandName);
 				String insertQuery = "insert into historial(id_usuario, id_grupo) values(?,?);";
-				System.out.println(insertQuery);
-				System.out.println(userID);
-				System.out.println(bandID);
 				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
 				insertPstms.setInt(1,userID);
 				insertPstms.setInt(2, bandID);
@@ -309,6 +306,7 @@ public class Modelo {
 			} else {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
 			}
+			rs.beforeFirst();
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
