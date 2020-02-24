@@ -93,12 +93,13 @@ public class Modelo {
 		ResultSet rs = null;
 		int bandID = 0;
 		try {
-			String selectQuery = "select id_grupo from usuarios where nombreGrupo = '" + bandName + "';";
+			String selectQuery = "select id_grupo from grupos where nombreGrupo = ?;";
 			PreparedStatement pstms = miConexion.prepareStatement(selectQuery);
+			pstms.setString(1, bandName);
 			rs = pstms.executeQuery();
 
-			if (rs.next()) {
-				bandID = rs.getInt("id_usuario");
+			while(rs.next()) {
+				bandID = rs.getInt("id_grupo");
 			}
 
 		} catch (SQLException e) {
@@ -297,9 +298,13 @@ public class Modelo {
 			if (rs.next()) {
 				int userID = this.getUserID();
 				int bandID = this.getBandID(searchedBandName);
-				String insertQuery = "insert into historial(id_usuario, historial.id_grupo)\r\n" + "values('" + userID
-						+ "','" + bandID + "');";
+				String insertQuery = "insert into historial(id_usuario, id_grupo) values(?,?);";
+				System.out.println(insertQuery);
+				System.out.println(userID);
+				System.out.println(bandID);
 				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
+				insertPstms.setInt(1,userID);
+				insertPstms.setInt(2, bandID);
 				insertPstms.executeUpdate();
 			} else {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
