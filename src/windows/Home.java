@@ -74,7 +74,6 @@ public class Home extends JFrame {
 		scrollPane.setBounds(25, 139, 751, 257);
 
 // CONCERT LIST
-
 		tableConcert = new JTable();
 		tableConcert.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		scrollPane.setViewportView(tableConcert);
@@ -131,6 +130,9 @@ public class Home extends JFrame {
 			public void mouseEntered(MouseEvent e) {
 				lblRecIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
 		});
 
 		lblFavIcon = new JLabel("");
@@ -141,6 +143,9 @@ public class Home extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblFavIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 		});
 
@@ -166,19 +171,20 @@ public class Home extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
-					getContentPane().add(scrollPane);
 					tableConcert
 							.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+					getContentPane().add(scrollPane);
 
 				} else if (!(txtCity.getText().trim().equals("")) && txtBandName.getText().trim().equals("")) {
-					getContentPane().add(scrollPane);
 					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
+					getContentPane().add(scrollPane);
 
 				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
-					getContentPane().add(scrollPane);
 					tableConcert.setModel(DbUtils.resultSetToTableModel(
 							model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					System.out.println("it works");
+					getContentPane().add(scrollPane);
+
 				}
 			}
 		});

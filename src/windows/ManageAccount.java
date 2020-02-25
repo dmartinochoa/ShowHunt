@@ -2,7 +2,6 @@ package windows;
 
 import controlador.*;
 
-
 import modelo.*;
 
 import java.awt.Color;
@@ -29,6 +28,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManageAccount extends JFrame {
 	private Controlador control;
@@ -55,6 +56,9 @@ public class ManageAccount extends JFrame {
 	private JLabel lblcurrentCityShow;
 	private JButton btnChangeCity;
 	private JButton btnBack;
+	private JTextField txtDelete;
+	private JButton btnDeleteAcc;
+	private JLabel lblDelete;
 
 	public ManageAccount() {
 		setTitle("ShowHunt");
@@ -68,6 +72,10 @@ public class ManageAccount extends JFrame {
 // BOTENES
 		// Change pwd button
 		btnChangePwd = new JButton("Change Password");
+		btnChangePwd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnChangePwd.setBounds(178, 298, 165, 25);
 		btnChangePwd.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnChangePwd);
@@ -121,7 +129,34 @@ public class ManageAccount extends JFrame {
 			}
 		});
 
+		// Delete Account button
+		btnDeleteAcc = new JButton("Delete Account");
+		btnDeleteAcc.setFont(new Font("SansSerif", Font.BOLD, 14));
+		btnDeleteAcc.setBounds(89, 454, 165, 23);
+		getContentPane().add(btnDeleteAcc);
+		btnDeleteAcc.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+
+			public void mouseClicked(MouseEvent e) {
+				if (txtDelete.getText().equals("delete")) {
+					JOptionPane.showMessageDialog(btnDeleteAcc, "Your Account was deleted");
+					control.goToLogin();
+				} else {
+					JOptionPane.showMessageDialog(btnDeleteAcc, "Type delete");
+				}
+			}
+		});
+
 // LABELS
+		lblDelete = new JLabel("Type \"delete\" to remove your account:");
+		lblDelete.setFont(new Font("SansSerif", Font.BOLD, 14));
+		lblDelete.setForeground(Color.WHITE);
+		lblDelete.setBounds(37, 387, 276, 25);
+		getContentPane().add(lblDelete);
+
 		lblManageAcc = new JLabel("Manage Account");
 		lblManageAcc.setForeground(Color.WHITE);
 		lblManageAcc.setBounds(257, 11, 290, 107);
@@ -177,6 +212,12 @@ public class ManageAccount extends JFrame {
 		getContentPane().add(lblNewCity);
 
 // TEXT FIELDS
+		txtDelete = new JTextField();
+		txtDelete.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		txtDelete.setBounds(89, 423, 165, 20);
+		getContentPane().add(txtDelete);
+		txtDelete.setColumns(10);
+
 		txtCurrentPwd = new JPasswordField();
 		txtCurrentPwd.setBounds(182, 187, 155, 22);
 		txtCurrentPwd.setFont(new Font("SansSerif", Font.PLAIN, 13));
@@ -197,6 +238,7 @@ public class ManageAccount extends JFrame {
 		});
 
 		txtNewPwd = new JPasswordField();
+		txtNewPwd.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		txtNewPwd.setBounds(182, 219, 155, 22);
 		getContentPane().add(txtNewPwd);
 		txtNewPwd.addKeyListener(new KeyAdapter() {
@@ -214,6 +256,7 @@ public class ManageAccount extends JFrame {
 		});
 
 		txtPwdCheck = new JPasswordField();
+		txtPwdCheck.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		txtPwdCheck.setBounds(182, 252, 155, 22);
 		getContentPane().add(txtPwdCheck);
 		txtPwdCheck.addKeyListener(new KeyAdapter() {
@@ -242,8 +285,7 @@ public class ManageAccount extends JFrame {
 			}
 		});
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
-		comboBoxCity.setModel(new DefaultComboBoxModel(
-				new String[] { null, "Madrid", "Barcerlona", "Esto es trabajo de chino", "test" }));
+		comboBoxCity.setModel(new DefaultComboBoxModel(new String[] {"Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia"}));
 		comboBoxCity.setBounds(605, 218, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {
