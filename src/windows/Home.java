@@ -175,13 +175,15 @@ public class Home extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
-					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
-					
+					tableConcert
+							.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+
 				} else if (!(txtCity.getText().trim().equals("")) && txtBandName.getText().trim().equals("")) {
 					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
-					
+
 				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
-					tableConcert.setModel(DbUtils.resultSetToTableModel(model.cityAndBandSearch(txtCity.getText().trim(),txtBandName.getText().trim())));
+					tableConcert.setModel(DbUtils.resultSetToTableModel(
+							model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					System.out.println("it works");
 				}
 			}
