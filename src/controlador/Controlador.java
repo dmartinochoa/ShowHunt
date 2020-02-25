@@ -84,6 +84,9 @@ public class Controlador {
 		this.home.setVisible(false);
 		if (manageAcc != null) {
 			this.manageAcc.setVisible(true);
+			this.manageAcc.tumadre();
+			this.manageAcc.cityChangeBtnChecker();
+			this.manageAcc.clearFields();
 		} else {
 			this.manageAcc = new ManageAccount();
 			this.manageAcc.setControl(this);
@@ -91,6 +94,7 @@ public class Controlador {
 			this.manageAcc.setVisible(true);
 			this.manageAcc.tumadre();
 			this.manageAcc.cityChangeBtnChecker();
+			this.manageAcc.clearFields();
 		}
 	}
 

@@ -212,6 +212,7 @@ public class Home extends JFrame {
 				} else {
 					tableConcert.setModel(DbUtils
 							.resultSetToTableModel(model.searchByGenre(comboBoxGenre.getSelectedItem().toString())));
+					comboBoxGenre.setSelectedIndex(0);
 				}
 			}
 		});
@@ -279,6 +280,7 @@ public class Home extends JFrame {
 				switch (choice) {
 				case 0:
 					control.goToManageAcc();
+					
 					break;
 				case 1:
 					control.goToLogin();
@@ -371,7 +373,10 @@ public class Home extends JFrame {
 		txtCity.setText("");
 		btnSearch.setEnabled(false);
 	}
-
+	
+	public void clearTable() {
+		
+	}
 // SETTERS
 	public void setControl(Controlador control) {
 		this.control = control;

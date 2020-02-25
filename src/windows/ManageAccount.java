@@ -349,6 +349,8 @@ public class ManageAccount extends JFrame {
 		});
 	}
 
+//MANAGE ACCOUNT METHODS
+
 //Change password btn enable/disable
 	public void btnPwdEnabler() {
 		if (txtNewPwd.getText().length() > 0 && txtPwdCheck.getText().length() > 0
@@ -386,6 +388,13 @@ public class ManageAccount extends JFrame {
 	// pone la ciudad actual del usuario
 	public void tumadre() {
 		lblcurrentCityShow.setText(model.getCurrentCity());
+	}
+
+	public void clearFields() {
+		txtCurrentPwd.setText("");
+		txtDelete.setText("");
+		txtNewPwd.setText("");
+		txtPwdCheck.setText("");
 	}
 
 	/**
