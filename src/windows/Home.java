@@ -74,19 +74,10 @@ public class Home extends JFrame {
 		scrollPane.setBounds(25, 139, 751, 257);
 
 // CONCERT LIST
-		getContentPane().add(scrollPane);
 
 		tableConcert = new JTable();
 		tableConcert.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		scrollPane.setViewportView(tableConcert);
-//		JList listConcert = new JList();
-//		listConcert.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		listConcert.setFont(new Font("SansSerif", Font.BOLD, 15));
-//		listConcert.setForeground(Color.WHITE);
-//		listConcert.setOpaque(false);
-//		listConcert.setCellRenderer(new TransparentListCellRenderer());
-//		listConcert.setBounds(25, 158, 751, 304);
-//		getContentPane().add(listConcert);
 
 // LABELS
 		// Logo
@@ -175,13 +166,16 @@ public class Home extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
+					getContentPane().add(scrollPane);
 					tableConcert
 							.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
 
 				} else if (!(txtCity.getText().trim().equals("")) && txtBandName.getText().trim().equals("")) {
+					getContentPane().add(scrollPane);
 					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
 
 				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
+					getContentPane().add(scrollPane);
 					tableConcert.setModel(DbUtils.resultSetToTableModel(
 							model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					System.out.println("it works");
