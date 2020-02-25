@@ -28,7 +28,10 @@ public class Modelo {
 	private String DRIVER;
 	private static String user;
 	private Connection miConexion;
-
+	
+	/**
+	 * Constructor, los atributos del modelo se cogen de un fichero de configuracion
+	 */
 	public Modelo() {
 		Properties propiedades = new Properties();
 		InputStream entrada = null;
@@ -42,11 +45,6 @@ public class Modelo {
 				this.PASS = propiedades.getProperty("PASS");
 				this.URL = propiedades.getProperty("URL");
 				this.DRIVER = propiedades.getProperty("DRIVER");
-
-				System.out.println(this.USUARIO);
-				System.out.println(this.PASS);
-				System.out.println(this.URL);
-				System.out.println(this.DRIVER);
 
 			} else
 				System.err.println("Fichero no encontrado");
@@ -119,6 +117,11 @@ public class Modelo {
 		return userID;
 	}
 
+	/**
+	 * Utiliza el nombre del grupo para devolver el id de ese grupo
+	 * @param bandName
+	 * @return
+	 */
 	public int getBandID(String bandName) {
 		ResultSet rs = null;
 		int bandID = 0;
@@ -146,6 +149,8 @@ public class Modelo {
 		}
 		return bandID;
 	}
+
+//account management
 
 	public boolean loginUser(String userName, String userPass) {
 		ResultSet rs = null;// las querys
@@ -238,6 +243,9 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Cierra la sesion
+	 */
 	public void closeSession() {
 		if (miConexion != null) {
 			try {
@@ -246,6 +254,72 @@ public class Modelo {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	/**
+	 * Borra de la base de datos la cuenta asociada al id del usuario que esta conectado
+	 */
+	public void removeUser() {
+
+		try {
+			String query = "delete from usuarios where id_usuario = ?;";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setInt(1, this.getUserID());
+			pstms.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Cambia la ciudad del usuario
+	 * @param newCity
+	 */
+	public void changeCity(String newCity) {
+		try {
+			String updateQuery = "update usuarios set ciudadUsuario = ? where id_usuario = ?;";
+			PreparedStatement stms = miConexion.prepareStatement(updateQuery);
+			stms.setString(1, newCity);
+			stms.setInt(2, this.getUserID());
+			stms.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * primero pide al usuario la antigua y la nueva password, si la antigua coincide con la que hay en
+	 * la base de datos la sustituye por la nueva
+	 * 
+	 * @param oldPassword
+	 * @param newPassword
+	 */
+	public void updatePassword(String oldPassword, String newPassword) {
+
+		ResultSet rs = null;// las querys
+
+		try {
+			String selectQuery = "select passwordUsuario from usuarios where id_usuario = ?;";
+			PreparedStatement stms = miConexion.prepareStatement(selectQuery);
+
+			stms.setInt(1, this.getUserID());
+			rs = stms.executeQuery();
+
+			String checkPassword = "";
+			while (rs.next()) {
+				checkPassword = rs.getString("passwordUsuario");
+			}
+
+			if (checkPassword.equals(oldPassword)) {
+				String updateQuery = "update usuarios set passwordUsuario = ? where id_usuario = ?;";
+				PreparedStatement updateStatement = miConexion.prepareStatement(updateQuery);
+
+				updateStatement.setString(1, newPassword);
+				updateStatement.setInt(2, this.getUserID());
+				updateStatement.executeUpdate();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -316,6 +390,22 @@ public class Modelo {
 
 //Search methods
 
+	public ResultSet getRecomended() {
+		ResultSet rs = null;
+		try {
+			String query = "select nombreGrupo,ciudad,lugar,fecha,linkEntradas from conciertos\r\n"
+					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n"
+					+ "    inner join historial h on g.id_grupo = h.id_grupo\r\n"
+					+ "    inner join usuarios u on h.id_usuario = u.id_usuario where conciertos.ciudad = u.ciudadUsuario and conciertos.id_grupo in\r\n"
+					+ "    (select id_grupo from historial where h.id_usuario = ?);";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			rs = pstms.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+
 	public ResultSet searchByBand(String searchedBandName) {
 		ResultSet rs = null;// las querys
 		try {
@@ -364,8 +454,8 @@ public class Modelo {
 			return rs;
 		}
 	}
-	
-	public ResultSet cityAndBandSearch(String city,String bandName) {
+
+	public ResultSet cityAndBandSearch(String city, String bandName) {
 		ResultSet rs = null;// las querys
 		try {
 			String query = "select nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
@@ -374,37 +464,6 @@ public class Modelo {
 			pstms.setString(1, city);
 			pstms.setString(2, bandName);
 			rs = pstms.executeQuery();
-
-			if (!rs.next()) {
-				System.out.println("No hay registros relacionados con el criterio de busqueda");
-			}
-			rs.beforeFirst();
-			return rs;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return rs;
-		}
-	}
-
-	public ResultSet searchByDate(int time) {
-		Statement stm = null;// cosa que hace query
-		ResultSet rs = null;// las querys
-
-		try {
-			stm = miConexion.createStatement();
-
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar date = Calendar.getInstance();
-			String stringDate = sdf.format(date.getTime());
-
-			date.add(Calendar.DAY_OF_MONTH, time);
-			String newStringDate = sdf.format(date.getTime());
-
-			String query = "select nombreGrupo,ciudad,lugar,fecha,linkEntradas from conciertos\r\n"
-					+ "inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n" + "where fecha > '" + stringDate
-					+ "' and fecha < '" + newStringDate + "';";
-			System.out.println(query);
-			rs = stm.executeQuery(query);
 
 			if (!rs.next()) {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
