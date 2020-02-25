@@ -149,6 +149,18 @@ public class Home extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				validateTextField();
 			}
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (txtBandName.getText().length() > 0 && txtCity.getText().trim().length() == 0) {
+						tableConcert
+						.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+						clearFields();
+					}else if(txtBandName.getText().length() > 0 && txtCity.getText().trim().length() > 0){
+						tableConcert.setModel(DbUtils.resultSetToTableModel(
+								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
+					}
+				}
+			}
 		});
 
 		txtCity = new JTextField();
@@ -160,6 +172,18 @@ public class Home extends JFrame {
 		txtCity.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				validateTextField();
+			}
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (txtCity.getText().length() > 0 && txtBandName.getText().trim().length() == 0) {
+						tableConcert
+						.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
+						clearFields();
+					}else if(txtCity.getText().length() > 0 && txtBandName.getText().trim().length() > 0){
+						tableConcert.setModel(DbUtils.resultSetToTableModel(
+								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
+					}
+				}
 			}
 		});
 
