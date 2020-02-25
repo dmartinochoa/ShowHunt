@@ -46,7 +46,7 @@ public class Controlador {
 			this.loginFailed = new LoginFailed();
 			this.loginFailed.setVisible(true);
 			new java.util.Timer().schedule(new java.util.TimerTask() {
-				
+
 				public void run() {
 					loginFailed.dispose();
 				}
@@ -89,6 +89,8 @@ public class Controlador {
 			this.manageAcc.setControl(this);
 			this.manageAcc.setModelo(model);
 			this.manageAcc.setVisible(true);
+			this.manageAcc.tumadre();
+			this.manageAcc.cityChangeBtnChecker();
 		}
 	}
 

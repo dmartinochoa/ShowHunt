@@ -32,6 +32,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -73,7 +75,7 @@ public class Home extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 139, 751, 257);
 		getContentPane().add(scrollPane);
-		
+
 // CONCERT LIST
 		tableConcert = new JTable();
 		tableConcert.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -120,31 +122,19 @@ public class Home extends JFrame {
 		});
 
 		// Icon lbls
-		lblRecIcon = new JLabel("");
-		lblRecIcon.setIcon(new ImageIcon(Home.class.getResource("/img/heart.png")));
-		lblRecIcon.setBounds(565, 22, 24, 31);
-		getContentPane().add(lblRecIcon);
-		lblRecIcon.addMouseListener(new MouseAdapter() {
-
-			public void mouseEntered(MouseEvent e) {
-				lblRecIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
 
 		lblFavIcon = new JLabel("");
 		lblFavIcon.setIcon(new ImageIcon(Home.class.getResource("/img/star.png")));
 		lblFavIcon.setBounds(607, 20, 24, 33);
 		getContentPane().add(lblFavIcon);
 		lblFavIcon.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				lblFavIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				tableConcert.setModel(DbUtils.resultSetToTableModel(model.getRecomended()));
 			}
 		});
 
@@ -155,6 +145,11 @@ public class Home extends JFrame {
 		txtBandName.setBounds(114, 86, 120, 20);
 		getContentPane().add(txtBandName);
 		txtBandName.setColumns(10);
+		txtBandName.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				validateTextField();
+			}
+		});
 
 		txtCity = new JTextField();
 		txtCity.setText("\r\n");
@@ -162,13 +157,18 @@ public class Home extends JFrame {
 		txtCity.setColumns(10);
 		txtCity.setBounds(285, 86, 120, 20);
 		getContentPane().add(txtCity);
+		txtCity.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				validateTextField();
+			}
+		});
 
 // BOTONES
 
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
 					tableConcert
 							.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
@@ -179,13 +179,14 @@ public class Home extends JFrame {
 				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
 					tableConcert.setModel(DbUtils.resultSetToTableModel(
 							model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
-
 				}
+				clearFields();
 			}
 		});
 		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));
 		btnSearch.setBounds(415, 85, 75, 23);
 		getContentPane().add(btnSearch);
+		btnSearch.setEnabled(false);
 		btnSearch.addMouseListener(new MouseAdapter() {
 
 			public void mouseEntered(MouseEvent e) {
@@ -298,7 +299,7 @@ public class Home extends JFrame {
 			}
 		});
 		getContentPane().addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
+
 			public void mouseDragged(MouseEvent e) {
 				int x = e.getXOnScreen();
 				int y = e.getYOnScreen();
@@ -306,6 +307,24 @@ public class Home extends JFrame {
 			}
 		});
 
+	}
+
+//HOME METHODS
+
+	/**
+	 * activa el boton si al menos uno de los dos cuadros de texto tiene contenido
+	 */
+	private void validateTextField() {
+		if (txtBandName.getText().trim().equals("") && txtCity.getText().trim().equals("")) {
+			btnSearch.setEnabled(false);
+		} else
+			btnSearch.setEnabled(true);
+	}
+
+	public void clearFields() {
+		txtBandName.setText("");
+		txtCity.setText("");
+		btnSearch.setEnabled(false);
 	}
 
 // SETTERS

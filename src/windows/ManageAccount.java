@@ -99,7 +99,6 @@ public class ManageAccount extends JFrame {
 		btnChangeCity.setFont(new Font("SansSerif", Font.BOLD, 15));
 		btnChangeCity.setBounds(605, 261, 155, 25);
 		getContentPane().add(btnChangeCity);
-		btnChangeCity.setEnabled(false);
 		btnChangeCity.addMouseListener(new MouseAdapter() {
 
 			public void mouseEntered(MouseEvent e) {
@@ -107,9 +106,10 @@ public class ManageAccount extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				if (comboBoxCity.getSelectedItem() != null) {
-					JOptionPane.showMessageDialog(btnChangeCity, "Your default city was changed");
-				}
+				model.changeCity(comboBoxCity.getSelectedItem().toString());
+				tumadre();
+				cityChangeBtnChecker();
+				JOptionPane.showMessageDialog(btnChangeCity, "Your default city was changed");
 			}
 		});
 
@@ -199,7 +199,7 @@ public class ManageAccount extends JFrame {
 		lblCurrentPwd.setBounds(38, 187, 140, 20);
 		getContentPane().add(lblCurrentPwd);
 
-		lblcurrentCityShow = new JLabel("idfk");
+		lblcurrentCityShow = new JLabel();
 		lblcurrentCityShow.setForeground(Color.WHITE);
 		lblcurrentCityShow.setFont(new Font("SansSerif", Font.BOLD, 15));
 		lblcurrentCityShow.setBounds(616, 186, 109, 20);
@@ -274,11 +274,7 @@ public class ManageAccount extends JFrame {
 		comboBoxCity = new JComboBox();
 		comboBoxCity.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if (comboBoxCity.getSelectedItem() != null) {
-					btnChangeCity.setEnabled(true);
-				} else {
-					btnChangeCity.setEnabled(false);
-				}
+				cityChangeBtnChecker();
 			}
 		});
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -384,6 +380,23 @@ public class ManageAccount extends JFrame {
 			} else if (!Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
 				JOptionPane.showMessageDialog(btnChangePwd, "Your passwords dont match");
 			}
+		}
+	}
+
+	// pone la ciudad actual del usuario
+	public void tumadre() {
+		lblcurrentCityShow.setText(model.getCurrentCity());
+	}
+
+	/**
+	 * desactiva el boton para cambiar de ciudad si la ciudad seleccionada coincide
+	 * con la ciudad del usuario
+	 */
+	public void cityChangeBtnChecker() {
+		if (comboBoxCity.getSelectedItem().toString().equals(lblcurrentCityShow.getText())) {
+			btnChangeCity.setEnabled(false);
+		} else {
+			btnChangeCity.setEnabled(true);
 		}
 	}
 

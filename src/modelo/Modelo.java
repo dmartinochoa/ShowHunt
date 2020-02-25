@@ -280,13 +280,35 @@ public class Modelo {
 	public void changeCity(String newCity) {
 		try {
 			String updateQuery = "update usuarios set ciudadUsuario = ? where id_usuario = ?;";
-			PreparedStatement stms = miConexion.prepareStatement(updateQuery);
-			stms.setString(1, newCity);
-			stms.setInt(2, this.getUserID());
-			stms.executeUpdate();
+			PreparedStatement pstms = miConexion.prepareStatement(updateQuery);
+			pstms.setString(1, newCity);
+			pstms.setInt(2, this.getUserID());
+			pstms.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Devuelve un String con la ciudad del usuario
+	 * 
+	 * @return currentCity
+	 */
+	public String getCurrentCity() {
+		ResultSet rs = null;
+		String currentCity = "";
+		try {
+			String query = "select ciudadUsuario from usuarios where id_usuario = ?";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setInt(1, this.getUserID());
+			rs = pstms.executeQuery();
+			while (rs.next()) {
+				currentCity = rs.getString("ciudadUsuario");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return currentCity;
 	}
 
 	/**
@@ -393,20 +415,21 @@ public class Modelo {
 //Search methods
 
 	/**
-	 * Muestra los conciertos cuyo id de grupo aparezca en el historial de busqueda del usuario
-	 * o cuya ciudad coincida con la ciudad del usuario.
+	 * Muestra los conciertos cuyo id de grupo aparezca en el historial de busqueda
+	 * del usuario o cuya ciudad coincida con la ciudad del usuario.
 	 * 
 	 * @return
 	 */
 	public ResultSet getRecomended() {
 		ResultSet rs = null;
 		try {
-			String query = "select nombreGrupo,ciudad,lugar,fecha,linkEntradas from conciertos\r\n"
-					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n"
-					+ "    inner join historial h on g.id_grupo = h.id_grupo\r\n"
-					+ "    inner join usuarios u on h.id_usuario = u.id_usuario where conciertos.ciudad = u.ciudadUsuario and conciertos.id_grupo in\r\n"
-					+ "    (select id_grupo from historial where h.id_usuario = ?);";
+			String query = "select distinct nombreGrupo, ciudad, lugar, fecha, linkEntradas\r\n" + "from conciertos\r\n"
+					+ "inner join grupos g on conciertos.id_grupo = g.id_grupo\r\n"
+					+ "where conciertos.id_grupo in (select id_grupo from showhuntdb.historial where id_usuario = ?)\r\n"
+					+ "or conciertos.ciudad in (select ciudadUsuario from showhuntdb.usuarios where id_usuario = ?);";
 			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setInt(1, this.getUserID());
+			pstms.setInt(2, this.getUserID());
 			rs = pstms.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -415,9 +438,10 @@ public class Modelo {
 	}
 
 	/**
-	 * Utiliza el metodo getBandId para sacar el ID asociado al nombre del grupo y muestra
-	 * los conciertos en los que aparezca ese grupo, ademas inserta en la tabla historial
-	 * el id del usuario que ha realizado la busqueda y el id del grupo que ha buscado
+	 * Utiliza el metodo getBandId para sacar el ID asociado al nombre del grupo y
+	 * muestra los conciertos en los que aparezca ese grupo, ademas inserta en la
+	 * tabla historial el id del usuario que ha realizado la busqueda y el id del
+	 * grupo que ha buscado
 	 * 
 	 * @param searchedBandName
 	 * @return
@@ -489,7 +513,7 @@ public class Modelo {
 				insertPstms.setInt(1, userID);
 				insertPstms.setInt(2, bandID);
 				insertPstms.executeUpdate();
-			}else {
+			} else {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
 			}
 			rs.beforeFirst();
