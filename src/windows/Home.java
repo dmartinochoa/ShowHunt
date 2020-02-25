@@ -149,13 +149,14 @@ public class Home extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				validateTextField();
 			}
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (txtBandName.getText().length() > 0 && txtCity.getText().trim().length() == 0) {
-						tableConcert
-						.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+						tableConcert.setModel(
+								DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
 						clearFields();
-					}else if(txtBandName.getText().length() > 0 && txtCity.getText().trim().length() > 0){
+					} else if (txtBandName.getText().length() > 0 && txtCity.getText().trim().length() > 0) {
 						tableConcert.setModel(DbUtils.resultSetToTableModel(
 								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					}
@@ -173,13 +174,14 @@ public class Home extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				validateTextField();
 			}
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (txtCity.getText().length() > 0 && txtBandName.getText().trim().length() == 0) {
 						tableConcert
-						.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
+								.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
 						clearFields();
-					}else if(txtCity.getText().length() > 0 && txtBandName.getText().trim().length() > 0){
+					} else if (txtCity.getText().length() > 0 && txtBandName.getText().trim().length() > 0) {
 						tableConcert.setModel(DbUtils.resultSetToTableModel(
 								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					}
@@ -193,18 +195,24 @@ public class Home extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
-					tableConcert
-							.setModel(DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
+				if (comboBoxGenre.getSelectedItem().toString().equals("Search Genre")) {
+					if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
+						tableConcert.setModel(
+								DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
 
-				} else if (!(txtCity.getText().trim().equals("")) && txtBandName.getText().trim().equals("")) {
-					tableConcert.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
+					} else if (!(txtCity.getText().trim().equals("")) && txtBandName.getText().trim().equals("")) {
+						tableConcert
+								.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
 
-				} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
-					tableConcert.setModel(DbUtils.resultSetToTableModel(
-							model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
+					} else if (!(txtCity.getText().trim().equals("")) && !(txtBandName.getText().trim().equals(""))) {
+						tableConcert.setModel(DbUtils.resultSetToTableModel(
+								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
+					}
+					clearFields();
+				} else {
+					tableConcert.setModel(DbUtils
+							.resultSetToTableModel(model.searchByGenre(comboBoxGenre.getSelectedItem().toString())));
 				}
-				clearFields();
 			}
 		});
 		btnSearch.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -220,6 +228,19 @@ public class Home extends JFrame {
 
 //COMBO BOX
 		comboBoxGenre = new JComboBox();
+		comboBoxGenre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean textFieldsEnabled = false;
+				if (comboBoxGenre.getSelectedItem().toString().equals("Search Genre")) {
+					textFieldsEnabled = true;
+				} else {
+					textFieldsEnabled = false;
+				}
+				txtBandName.setEnabled(textFieldsEnabled);
+				txtCity.setEnabled(textFieldsEnabled);
+				btnSearch.setEnabled(!textFieldsEnabled);
+			}
+		});
 		comboBoxGenre.setModel(new DefaultComboBoxModel(
 				new String[] { "Search Genre", "Rock", "Metal", "Pop", "Rap", "Indie", "Funk" }));
 		comboBoxGenre.setFont(new Font("SansSerif", Font.BOLD, 12));

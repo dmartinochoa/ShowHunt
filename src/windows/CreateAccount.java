@@ -191,7 +191,8 @@ public class CreateAccount extends JFrame {
 // DROPDOWN
 		comboBoxCity = new JComboBox();
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
-		comboBoxCity.setModel(new DefaultComboBoxModel(new String[] {"Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia"}));
+		comboBoxCity.setModel(new DefaultComboBoxModel(
+				new String[] { "Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia" }));
 		comboBoxCity.setBounds(330, 300, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {

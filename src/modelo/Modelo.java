@@ -537,19 +537,11 @@ public class Modelo {
 			if (!rs.next()) {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
 			}
+			rs.beforeFirst();
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return rs;
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
 	}
 
