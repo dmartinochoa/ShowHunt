@@ -72,6 +72,10 @@ public class ManageAccount extends JFrame {
 // BOTENES
 		// Change pwd button
 		btnChangePwd = new JButton("Change Password");
+		btnChangePwd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnChangePwd.setBounds(178, 298, 165, 25);
 		btnChangePwd.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnChangePwd);
@@ -281,8 +285,7 @@ public class ManageAccount extends JFrame {
 			}
 		});
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
-		comboBoxCity.setModel(new DefaultComboBoxModel(
-				new String[] { null, "Madrid", "Barcerlona", "Esto es trabajo de chino", "test" }));
+		comboBoxCity.setModel(new DefaultComboBoxModel(new String[] {"Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia"}));
 		comboBoxCity.setBounds(605, 218, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {

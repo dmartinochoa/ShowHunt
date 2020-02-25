@@ -77,14 +77,6 @@ public class Home extends JFrame {
 		tableConcert = new JTable();
 		tableConcert.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		scrollPane.setViewportView(tableConcert);
-//		JList listConcert = new JList();
-//		listConcert.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		listConcert.setFont(new Font("SansSerif", Font.BOLD, 15));
-//		listConcert.setForeground(Color.WHITE);
-//		listConcert.setOpaque(false);
-//		listConcert.setCellRenderer(new TransparentListCellRenderer());
-//		listConcert.setBounds(25, 158, 751, 304);
-//		getContentPane().add(listConcert);
 
 // LABELS
 		// Logo
