@@ -392,6 +392,12 @@ public class Modelo {
 
 //Search methods
 
+	/**
+	 * Muestra los conciertos cuyo id de grupo aparezca en el historial de busqueda del usuario
+	 * o cuya ciudad coincida con la ciudad del usuario.
+	 * 
+	 * @return
+	 */
 	public ResultSet getRecomended() {
 		ResultSet rs = null;
 		try {
@@ -408,18 +414,26 @@ public class Modelo {
 		return rs;
 	}
 
-	public ResultSet searchByBand(String searchedBandName) {
+	/**
+	 * Utiliza el metodo getBandId para sacar el ID asociado al nombre del grupo y muestra
+	 * los conciertos en los que aparezca ese grupo, ademas inserta en la tabla historial
+	 * el id del usuario que ha realizado la busqueda y el id del grupo que ha buscado
+	 * 
+	 * @param searchedBandName
+	 * @return
+	 */
+	public ResultSet searchByBand(String bandName) {
 		ResultSet rs = null;// las querys
 		try {
 			String selectQuery = "select nombreGrupo, ciudad, lugar,fecha,linkEntradas from conciertos\r\n"
 					+ "    inner join grupos g on conciertos.id_grupo = g.id_grupo where nombreGrupo = ?;";
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 
-			selectPstms.setString(1, searchedBandName);
+			selectPstms.setString(1, bandName);
 			rs = selectPstms.executeQuery();
 			if (rs.next()) {
 				int userID = this.getUserID();
-				int bandID = this.getBandID(searchedBandName);
+				int bandID = this.getBandID(bandName);
 				String insertQuery = "insert into historial(id_usuario, id_grupo) values(?,?);";
 				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
 				insertPstms.setInt(1, userID);
@@ -467,7 +481,15 @@ public class Modelo {
 			pstms.setString(2, bandName);
 			rs = pstms.executeQuery();
 
-			if (!rs.next()) {
+			if (rs.next()) {
+				int userID = this.getUserID();
+				int bandID = this.getBandID(bandName);
+				String insertQuery = "insert into historial(id_usuario, id_grupo) values(?,?);";
+				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
+				insertPstms.setInt(1, userID);
+				insertPstms.setInt(2, bandID);
+				insertPstms.executeUpdate();
+			}else {
 				System.out.println("No hay registros relacionados con el criterio de busqueda");
 			}
 			rs.beforeFirst();
