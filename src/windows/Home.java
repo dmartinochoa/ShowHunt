@@ -75,7 +75,7 @@ public class Home extends JFrame {
 
 // CONCERT LIST
 		tableConcert = new JTable();
-		tableConcert.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		tableConcert.setFont(new Font("SansSerif", Font.BOLD, 14));
 		scrollPane.setViewportView(tableConcert);
 
 // LABELS
