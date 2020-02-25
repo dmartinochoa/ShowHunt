@@ -46,7 +46,7 @@ public class Controlador {
 			this.loginFailed = new LoginFailed();
 			this.loginFailed.setVisible(true);
 			new java.util.Timer().schedule(new java.util.TimerTask() {
-				@Override
+				
 				public void run() {
 					loginFailed.dispose();
 				}

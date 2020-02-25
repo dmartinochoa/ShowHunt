@@ -81,7 +81,7 @@ public class ManageAccount extends JFrame {
 		getContentPane().add(btnChangePwd);
 		btnChangePwd.setEnabled(false);
 		btnChangePwd.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnChangePwd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -101,7 +101,7 @@ public class ManageAccount extends JFrame {
 		getContentPane().add(btnChangeCity);
 		btnChangeCity.setEnabled(false);
 		btnChangeCity.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnChangeCity.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -119,7 +119,7 @@ public class ManageAccount extends JFrame {
 		btnBack.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnBack);
 		btnBack.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -135,7 +135,7 @@ public class ManageAccount extends JFrame {
 		btnDeleteAcc.setBounds(89, 454, 165, 23);
 		getContentPane().add(btnDeleteAcc);
 		btnDeleteAcc.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -224,14 +224,13 @@ public class ManageAccount extends JFrame {
 		getContentPane().add(txtCurrentPwd);
 		txtCurrentPwd.setColumns(10);
 		txtCurrentPwd.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
 				}
 			}
 
-			@Override
 			public void keyTyped(KeyEvent e) {
 				btnPwdEnabler();
 			}
@@ -242,14 +241,13 @@ public class ManageAccount extends JFrame {
 		txtNewPwd.setBounds(182, 219, 155, 22);
 		getContentPane().add(txtNewPwd);
 		txtNewPwd.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
 				}
 			}
 
-			@Override
 			public void keyTyped(KeyEvent e) {
 				btnPwdEnabler();
 			}
@@ -260,14 +258,13 @@ public class ManageAccount extends JFrame {
 		txtPwdCheck.setBounds(182, 252, 155, 22);
 		getContentPane().add(txtPwdCheck);
 		txtPwdCheck.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
 				}
 			}
 
-			@Override
 			public void keyTyped(KeyEvent e) {
 				btnPwdEnabler();
 			}
@@ -285,11 +282,12 @@ public class ManageAccount extends JFrame {
 			}
 		});
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
-		comboBoxCity.setModel(new DefaultComboBoxModel(new String[] {"Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia"}));
+		comboBoxCity.setModel(new DefaultComboBoxModel(
+				new String[] { "Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia" }));
 		comboBoxCity.setBounds(605, 218, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
@@ -304,12 +302,11 @@ public class ManageAccount extends JFrame {
 		lblExit.setBounds(752, 11, 38, 33);
 		getContentPane().add(lblExit);
 		lblExit.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -322,12 +319,11 @@ public class ManageAccount extends JFrame {
 		lblMinimize.setBounds(715, 11, 30, 33);
 		getContentPane().add(lblMinimize);
 		lblMinimize.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 				setState(ICONIFIED);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblMinimize.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -341,14 +337,14 @@ public class ManageAccount extends JFrame {
 
 // Listeners para poder mover la vista
 		getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mousePressed(MouseEvent e) {
 				xx = e.getX();
 				xy = e.getY();
 			}
 		});
 		getContentPane().addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
+
 			public void mouseDragged(MouseEvent e) {
 				int x = e.getXOnScreen();
 				int y = e.getYOnScreen();
@@ -376,9 +372,11 @@ public class ManageAccount extends JFrame {
 		if (pwd.length > 0 && pwdCheck.length > 0) {
 
 			if (Arrays.equals(pwd, pwdCheck) && pwd.length >= 8) {
-				JOptionPane.showMessageDialog(btnChangePwd, "Your password was changed");
-				// pdwHash sera la variable que guardaremos como contraseña
-				String pwdHash = String.valueOf(txtNewPwd.getText().hashCode());
+				if (model.updatePassword(txtCurrentPwd.getText().trim(), txtNewPwd.getText().trim())) {
+					JOptionPane.showMessageDialog(btnChangePwd, "Your password was changed");
+				} else {
+					JOptionPane.showMessageDialog(btnChangePwd, "Incorrect current password");
+				}
 
 			} else if (Arrays.equals(pwd, pwdCheck) && pwd.length < 8) {
 				JOptionPane.showMessageDialog(btnChangePwd, "Your password must be at least 8 characters long");

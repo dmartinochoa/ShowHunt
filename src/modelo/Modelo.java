@@ -21,14 +21,13 @@ public class Modelo {
 	private CreateAccount createAcc;
 	private Home home;
 	private ManageAccount manageAcc;
-
 	private String USUARIO;
 	private String PASS;
 	private String URL;
 	private String DRIVER;
 	private static String user;
 	private Connection miConexion;
-	
+
 	/**
 	 * Constructor, los atributos del modelo se cogen de un fichero de configuracion
 	 */
@@ -77,9 +76,8 @@ public class Modelo {
 			Class.forName(DRIVER);
 			miConexion = DriverManager.getConnection(URL, conexionUser, PASS);
 			System.out.println("Conexión OK");
-
 		} catch (Exception e) {
-			System.out.println("Error en la conexión");
+			System.err.println("Error en la conexión");
 			e.printStackTrace();
 		}
 
@@ -119,6 +117,7 @@ public class Modelo {
 
 	/**
 	 * Utiliza el nombre del grupo para devolver el id de ese grupo
+	 * 
 	 * @param bandName
 	 * @return
 	 */
@@ -179,7 +178,7 @@ public class Modelo {
 				this.user = userName;
 				return true;
 			} else {
-				System.out.println("Login incorrecto");
+				System.err.println("Login incorrecto");
 				miConexion.close();
 				return false;
 			}
@@ -218,7 +217,6 @@ public class Modelo {
 			PreparedStatement selectPstms = miConexion.prepareStatement(selectQuery);
 			selectPstms.setString(1, userName);
 			selectPstms.setString(2, userMail);
-			System.out.println(selectQuery);
 			rs = selectPstms.executeQuery();
 
 			if (!rs.next()) {
@@ -256,8 +254,10 @@ public class Modelo {
 			}
 		}
 	}
+
 	/**
-	 * Borra de la base de datos la cuenta asociada al id del usuario que esta conectado
+	 * Borra de la base de datos la cuenta asociada al id del usuario que esta
+	 * conectado
 	 */
 	public void removeUser() {
 
@@ -271,8 +271,10 @@ public class Modelo {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Cambia la ciudad del usuario
+	 * 
 	 * @param newCity
 	 */
 	public void changeCity(String newCity) {
@@ -286,40 +288,40 @@ public class Modelo {
 			e.printStackTrace();
 		}
 	}
+
 	/**
-	 * primero pide al usuario la antigua y la nueva password, si la antigua coincide con la que hay en
-	 * la base de datos la sustituye por la nueva
+	 * primero pide al usuario la antigua y la nueva password, si la antigua
+	 * coincide con la que hay en la base de datos la sustituye por la nueva
 	 * 
 	 * @param oldPassword
 	 * @param newPassword
 	 */
-	public void updatePassword(String oldPassword, String newPassword) {
+	public boolean updatePassword(String oldPassword, String newPassword) {
 
 		ResultSet rs = null;// las querys
-
 		try {
-			String selectQuery = "select passwordUsuario from usuarios where id_usuario = ?;";
+			String selectQuery = "select passwordUsuario from usuarios where id_usuario = ? and passwordUsuario = md5(?);";
 			PreparedStatement stms = miConexion.prepareStatement(selectQuery);
 
 			stms.setInt(1, this.getUserID());
+			stms.setString(2, oldPassword);
 			rs = stms.executeQuery();
 
-			String checkPassword = "";
-			while (rs.next()) {
-				checkPassword = rs.getString("passwordUsuario");
-			}
-
-			if (checkPassword.equals(oldPassword)) {
-				String updateQuery = "update usuarios set passwordUsuario = ? where id_usuario = ?;";
+			if (rs.next()) {
+				String updateQuery = "update usuarios set passwordUsuario = md5(?) where id_usuario = ?;";
 				PreparedStatement updateStatement = miConexion.prepareStatement(updateQuery);
 
 				updateStatement.setString(1, newPassword);
 				updateStatement.setInt(2, this.getUserID());
 				updateStatement.executeUpdate();
+				return true;
+			} else {
+				return false;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 

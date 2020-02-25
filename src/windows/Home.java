@@ -108,15 +108,13 @@ public class Home extends JFrame {
 		lblUser.setBounds(652, 12, 32, 41);
 		getContentPane().add(lblUser);
 		lblUser.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				lblUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				listUser.setVisible(true);
-
 			}
 		});
 
@@ -126,11 +124,11 @@ public class Home extends JFrame {
 		lblRecIcon.setBounds(565, 22, 24, 31);
 		getContentPane().add(lblRecIcon);
 		lblRecIcon.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				lblRecIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
@@ -144,6 +142,7 @@ public class Home extends JFrame {
 			public void mouseEntered(MouseEvent e) {
 				lblFavIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
@@ -192,7 +191,7 @@ public class Home extends JFrame {
 		btnSearch.setBounds(415, 85, 75, 23);
 		getContentPane().add(btnSearch);
 		btnSearch.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -228,12 +227,11 @@ public class Home extends JFrame {
 		getContentPane().add(listUser);
 		listUser.setVisible(false);
 		listUser.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				listUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				int choice = listUser.getSelectedIndex();
 				switch (choice) {
@@ -247,7 +245,6 @@ public class Home extends JFrame {
 				listUser.setVisible(false);
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e) {
 				listUser.setVisible(false);
 			}
@@ -257,12 +254,11 @@ public class Home extends JFrame {
 		lblExit = new JLabel("x");
 		lblExit.setBounds(752, 11, 38, 33);
 		lblExit.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -279,7 +275,7 @@ public class Home extends JFrame {
 		lblMinimize.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 40));
 		getContentPane().add(lblMinimize);
 		lblMinimize.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 				setState(ICONIFIED);
 			}
@@ -299,7 +295,7 @@ public class Home extends JFrame {
 
 // Listeners para poder mover la vista
 		getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mousePressed(MouseEvent e) {
 				xx = e.getX();
 				xy = e.getY();
@@ -327,7 +323,7 @@ public class Home extends JFrame {
 
 // Transparency class
 	public class TransparentListCellRenderer extends DefaultListCellRenderer {
-		@Override
+
 		public Component getListCellRendererComponent(JList<?> listConcert, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			super.getListCellRendererComponent(listConcert, value, index, isSelected, cellHasFocus);

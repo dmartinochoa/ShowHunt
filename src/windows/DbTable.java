@@ -107,7 +107,7 @@ public class DbTable extends JFrame {
 		lblExit.setBounds(752, 11, 38, 33);
 		getContentPane().add(lblExit);
 		lblExit.addMouseListener(new MouseAdapter() {
-			@Override
+			
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
@@ -124,7 +124,7 @@ public class DbTable extends JFrame {
 		lblMinimize.setBounds(715, 11, 30, 33);
 		getContentPane().add(lblMinimize);
 		lblMinimize.addMouseListener(new MouseAdapter() {
-			@Override
+			
 			public void mouseClicked(MouseEvent e) {
 				setState(ICONIFIED);
 			}
@@ -142,7 +142,7 @@ public class DbTable extends JFrame {
 
 // Listeners para mover la ventana
 		getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
+			
 			public void mousePressed(MouseEvent e) {
 				xx = e.getX();
 				xy = e.getY();
@@ -150,7 +150,7 @@ public class DbTable extends JFrame {
 		});
 
 		getContentPane().addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
+			
 			public void mouseDragged(MouseEvent e) {
 				int x = e.getXOnScreen();
 				int y = e.getYOnScreen();
