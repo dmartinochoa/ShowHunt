@@ -157,7 +157,7 @@ public class Modelo {
 
 		try {
 			this.conectar(this.USUARIO);// llama al metodo conectar de la clase conexion
-			String query = "select nombreUsuario, passwordUsuario, administrador from usuarios where nombreUsuario = ? and passwordUsuario =?;";
+			String query = "select nombreUsuario, passwordUsuario, administrador from usuarios where nombreUsuario = ? and passwordUsuario = md5(?);";
 			PreparedStatement pstms = miConexion.prepareStatement(query);
 			pstms.setString(1, userName);
 			pstms.setString(2, userPass);
@@ -222,7 +222,7 @@ public class Modelo {
 			rs = selectPstms.executeQuery();
 
 			if (!rs.next()) {
-				String insertQuery = "insert into usuarios(nombreUsuario, passwordUsuario, correoUsuario, ciudadUsuario) values(?,?,?,?);";
+				String insertQuery = "insert into usuarios(nombreUsuario, passwordUsuario, correoUsuario, ciudadUsuario) values(?,md5(?),?,?);";
 				PreparedStatement insertPstms = miConexion.prepareStatement(insertQuery);
 				insertPstms.setString(1, userName);
 				insertPstms.setString(2, userPass);
