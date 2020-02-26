@@ -279,7 +279,7 @@ public class ManageAccount extends JFrame {
 		});
 		comboBoxCity.setFont(new Font("SansSerif", Font.BOLD, 12));
 		comboBoxCity.setModel(new DefaultComboBoxModel(
-				new String[] { "Madrid", "Barcerlona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia" }));
+				new String[] { "Madrid", "Barcelona", "Sevilla", "Bilbao", "Jerez de la Frontera", "Murcia" }));
 		comboBoxCity.setBounds(605, 218, 155, 22);
 		getContentPane().add(comboBoxCity);
 		comboBoxCity.addKeyListener(new KeyAdapter() {

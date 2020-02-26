@@ -134,6 +134,7 @@ public class Home extends JFrame {
 			}
 
 			public void mouseClicked(MouseEvent e) {
+				tableConcert.setVisible(true);
 				tableConcert.setModel(DbUtils.resultSetToTableModel(model.getRecomended()));
 			}
 		});
@@ -151,12 +152,15 @@ public class Home extends JFrame {
 			}
 
 			public void keyPressed(KeyEvent e) {
+				
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (txtBandName.getText().length() > 0 && txtCity.getText().trim().length() == 0) {
+						tableConcert.setVisible(true);
 						tableConcert.setModel(
 								DbUtils.resultSetToTableModel(model.searchByBand(txtBandName.getText().trim())));
 						clearFields();
 					} else if (txtBandName.getText().length() > 0 && txtCity.getText().trim().length() > 0) {
+						tableConcert.setVisible(true);
 						tableConcert.setModel(DbUtils.resultSetToTableModel(
 								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					}
@@ -178,10 +182,12 @@ public class Home extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (txtCity.getText().length() > 0 && txtBandName.getText().trim().length() == 0) {
+						tableConcert.setVisible(true);
 						tableConcert
 								.setModel(DbUtils.resultSetToTableModel(model.searchByCity(txtCity.getText().trim())));
 						clearFields();
 					} else if (txtCity.getText().length() > 0 && txtBandName.getText().trim().length() > 0) {
+						tableConcert.setVisible(true);
 						tableConcert.setModel(DbUtils.resultSetToTableModel(
 								model.cityAndBandSearch(txtCity.getText().trim(), txtBandName.getText().trim())));
 					}
@@ -194,7 +200,7 @@ public class Home extends JFrame {
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				tableConcert.setVisible(true);
 				if (comboBoxGenre.getSelectedItem().toString().equals("Search Genre")) {
 					if (!(txtBandName.getText().trim().equals("")) && txtCity.getText().trim().equals("")) {
 						tableConcert.setModel(
@@ -212,7 +218,7 @@ public class Home extends JFrame {
 				} else {
 					tableConcert.setModel(DbUtils
 							.resultSetToTableModel(model.searchByGenre(comboBoxGenre.getSelectedItem().toString())));
-					comboBoxGenre.setSelectedIndex(0);
+					comboBoxGenre.setSelectedIndex(0);;
 				}
 			}
 		});
@@ -375,7 +381,8 @@ public class Home extends JFrame {
 	}
 	
 	public void clearTable() {
-		
+		tableConcert.setVisible(false);
+		System.out.println("patata");
 	}
 // SETTERS
 	public void setControl(Controlador control) {

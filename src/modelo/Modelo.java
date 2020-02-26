@@ -346,6 +346,24 @@ public class Modelo {
 			return false;
 		}
 	}
+	
+	public void getUserData(int user_id) {
+		ResultSet rs = null;
+		
+		try {
+			String query = "";
+			PreparedStatement pstms = miConexion.prepareStatement(query);
+			pstms.setInt(1, user_id);
+			rs = pstms.executeQuery();
+			
+			while(rs.next()) {
+				String grupo = rs.getString("nombregrupo");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 //selects
 	/**

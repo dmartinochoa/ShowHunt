@@ -72,7 +72,7 @@ public class CreateAccount extends JFrame {
 		getContentPane().add(btnCreateAccount);
 		btnCreateAccount.setEnabled(false);
 		btnCreateAccount.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnCreateAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -88,7 +88,7 @@ public class CreateAccount extends JFrame {
 		btnBack.setFont(new Font("SansSerif", Font.BOLD, 15));
 		getContentPane().add(btnBack);
 		btnBack.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseEntered(MouseEvent e) {
 				btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -156,7 +156,7 @@ public class CreateAccount extends JFrame {
 		getContentPane().add(txtUsername);
 		txtUsername.setColumns(10);
 		txtUsername.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
@@ -168,7 +168,7 @@ public class CreateAccount extends JFrame {
 		txtPwd.setBounds(330, 240, 155, 22);
 		getContentPane().add(txtPwd);
 		txtPwd.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
@@ -180,7 +180,7 @@ public class CreateAccount extends JFrame {
 		txtPwdCheck.setBounds(330, 270, 155, 22);
 		getContentPane().add(txtPwdCheck);
 		txtPwdCheck.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
@@ -219,7 +219,7 @@ public class CreateAccount extends JFrame {
 		checkTerms.setBounds(330, 329, 155, 23);
 		getContentPane().add(checkTerms);
 		checkTerms.addKeyListener(new KeyAdapter() {
-			@Override
+
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					createAccChecker();
@@ -234,12 +234,11 @@ public class CreateAccount extends JFrame {
 		lblExit.setBounds(752, 11, 38, 33);
 		getContentPane().add(lblExit);
 		lblExit.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -252,12 +251,11 @@ public class CreateAccount extends JFrame {
 		lblMinimize.setBounds(715, 11, 30, 33);
 		getContentPane().add(lblMinimize);
 		lblMinimize.addMouseListener(new MouseAdapter() {
-			@Override
+
 			public void mouseClicked(MouseEvent e) {
 				setState(ICONIFIED);
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblMinimize.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -316,6 +314,15 @@ public class CreateAccount extends JFrame {
 //User Exists Alert
 	public void userExistMessage() {
 		JOptionPane.showMessageDialog(checkTerms, "Username/Email already in use");
+	}
+
+	public void cleanFields() {
+		txtEmail.setText("");
+		txtPwd.setText("");
+		txtPwdCheck.setText("");
+		txtUsername.setText("");
+		btnCreateAccount.setEnabled(true);
+		checkTerms.setSelected(false);
 	}
 
 // Setters

@@ -30,11 +30,14 @@ public class Controlador {
 			} else {
 				if (home != null) {
 					this.home.setVisible(true);
+					this.home.clearTable();
+					this.home.clearFields();
 				} else {
 					this.home = new Home();
 					this.home.setControl(this);
 					this.home.setModelo(model);
 					this.home.setVisible(true);
+					this.home.clearTable();
 				}
 			}
 		} else {
@@ -60,6 +63,7 @@ public class Controlador {
 		this.login.setVisible(false);
 		if (createAcc != null) {
 			this.createAcc.setVisible(true);
+			this.createAcc.cleanFields();
 		} else {
 			this.createAcc = new CreateAccount();
 			this.createAcc.setControl(this);
@@ -102,7 +106,8 @@ public class Controlador {
 	public void goToHomeFromManageAcc() {
 		this.manageAcc.dispose();
 		this.home.setVisible(true);
-
+		this.home.clearFields();
+		this.home.clearTable();
 	}
 
 // temporal para volver a la vista de login 
