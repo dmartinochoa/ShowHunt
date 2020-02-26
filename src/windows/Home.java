@@ -382,7 +382,6 @@ public class Home extends JFrame {
 	
 	public void clearTable() {
 		tableConcert.setVisible(false);
-		System.out.println("patata");
 	}
 // SETTERS
 	public void setControl(Controlador control) {

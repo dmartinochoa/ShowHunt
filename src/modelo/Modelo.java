@@ -4,8 +4,10 @@ import windows.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -27,6 +29,7 @@ public class Modelo {
 	private String DRIVER;
 	private static String user;
 	private Connection miConexion;
+	private FileOutputStream fos;
 
 	/**
 	 * Constructor, los atributos del modelo se cogen de un fichero de configuracion
@@ -351,13 +354,35 @@ public class Modelo {
 		ResultSet rs = null;
 		
 		try {
-			String query = "";
+			String query = "select count(nombreGrupo), nombreGrupo ,genero  from showhuntdb.historial\r\n" + 
+					"    inner join grupos g on historial.id_grupo = g.id_grupo\r\n" + 
+					"    where id_usuario = ? group by historial.id_grupo;";
 			PreparedStatement pstms = miConexion.prepareStatement(query);
 			pstms.setInt(1, user_id);
 			rs = pstms.executeQuery();
 			
-			while(rs.next()) {
-				String grupo = rs.getString("nombregrupo");
+			String fileName = "userDataID:"+user_id;
+			File userDataFile =  new File ("UserData/"+fileName+".txt");
+			if(userDataFile.exists()) {
+				try {
+					OutputStream dataFile = new FileOutputStream(userDataFile);
+					while(rs.next()) {
+						String timesSearched = rs.getInt("count(nombreGrupo)")+"";
+						String bandName = rs.getString("nombregrupo");
+						String genre = rs.getString("genero");
+						
+						byte timesSearchedToArray [] = timesSearched.getBytes();
+						byte bandNameToArray [] = bandName.getBytes();
+						byte genreToArray [] = genre.getBytes();
+						
+						dataFile.write(timesSearchedToArray);
+						dataFile.write(bandNameToArray);
+						dataFile.write(genreToArray);
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -370,7 +395,6 @@ public class Modelo {
 	 * Muestra todas las columnas de la tabla usuarios, solo los administradores
 	 * pueden usarlo
 	 * 
-	 * @return
 	 * @return
 	 * @throws SQLException
 	 */
